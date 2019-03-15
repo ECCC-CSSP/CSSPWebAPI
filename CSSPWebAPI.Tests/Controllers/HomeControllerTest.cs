@@ -19,7 +19,6 @@ namespace CSSPWebAPI.Tests.Controllers
 
             // Assert
             Assert.IsNotNull(result);
-            Assert.AreEqual("Home Page", result.ViewBag.Title);
         }
     }
 }

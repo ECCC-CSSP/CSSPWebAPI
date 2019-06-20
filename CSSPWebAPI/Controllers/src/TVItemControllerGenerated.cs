@@ -26,17 +26,12 @@ namespace CSSPWebAPI.Controllers
         }
         #endregion Constructors
 
-        #region Functions public 
+        #region Functions public
         // GET api/tvItem
         [Route("")]
         public IHttpActionResult GetTVItemList([FromUri]string lang = "en", [FromUri]int skip = 0, [FromUri]int take = 200,
             [FromUri]string asc = "", [FromUri]string desc = "", [FromUri]string where = "", [FromUri]string extra = "")
         {
-            if (!User.Identity.IsAuthenticated)
-            {
-                return BadRequest("no access");
-            }
-
             using (CSSPDBContext db = new CSSPDBContext(DatabaseType))
             {
                 TVItemService tvItemService = new TVItemService(new Query() { Lang = lang }, db, ContactID);

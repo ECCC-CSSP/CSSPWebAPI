@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 MapInfoPointService mapInfoPointService = new MapInfoPointService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   mapInfoPointService.Query = mapInfoPointService.FillQuery(typeof(MapInfoPointExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (mapInfoPointService.Query.HasErrors)
-                    {
-                        return Ok(new List<MapInfoPointExtraA>()
-                        {
-                            new MapInfoPointExtraA()
-                            {
-                                HasErrors = mapInfoPointService.Query.HasErrors,
-                                ValidationResults = mapInfoPointService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(mapInfoPointService.GetMapInfoPointExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   mapInfoPointService.Query = mapInfoPointService.FillQuery(typeof(MapInfoPointExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (mapInfoPointService.Query.HasErrors)
-                    {
-                        return Ok(new List<MapInfoPointExtraB>()
-                        {
-                            new MapInfoPointExtraB()
-                            {
-                                HasErrors = mapInfoPointService.Query.HasErrors,
-                                ValidationResults = mapInfoPointService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(mapInfoPointService.GetMapInfoPointExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    mapInfoPointService.Query = mapInfoPointService.FillQuery(typeof(MapInfoPoint), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 mapInfoPointService.Query = mapInfoPointService.FillQuery(typeof(MapInfoPoint), lang, 0, 1, "", "", extra);
 
-                if (mapInfoPointService.Query.Extra == "A")
-                {
-                    MapInfoPointExtraA mapInfoPointExtraA = new MapInfoPointExtraA();
-                    mapInfoPointExtraA = mapInfoPointService.GetMapInfoPointExtraAWithMapInfoPointID(MapInfoPointID);
-
-                    if (mapInfoPointExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(mapInfoPointExtraA);
-                }
-                else if (mapInfoPointService.Query.Extra == "B")
-                {
-                    MapInfoPointExtraB mapInfoPointExtraB = new MapInfoPointExtraB();
-                    mapInfoPointExtraB = mapInfoPointService.GetMapInfoPointExtraBWithMapInfoPointID(MapInfoPointID);
-
-                    if (mapInfoPointExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(mapInfoPointExtraB);
-                }
                 else
                 {
                     MapInfoPoint mapInfoPoint = new MapInfoPoint();

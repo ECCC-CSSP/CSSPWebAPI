@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 MikeSourceStartEndService mikeSourceStartEndService = new MikeSourceStartEndService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   mikeSourceStartEndService.Query = mikeSourceStartEndService.FillQuery(typeof(MikeSourceStartEndExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (mikeSourceStartEndService.Query.HasErrors)
-                    {
-                        return Ok(new List<MikeSourceStartEndExtraA>()
-                        {
-                            new MikeSourceStartEndExtraA()
-                            {
-                                HasErrors = mikeSourceStartEndService.Query.HasErrors,
-                                ValidationResults = mikeSourceStartEndService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(mikeSourceStartEndService.GetMikeSourceStartEndExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   mikeSourceStartEndService.Query = mikeSourceStartEndService.FillQuery(typeof(MikeSourceStartEndExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (mikeSourceStartEndService.Query.HasErrors)
-                    {
-                        return Ok(new List<MikeSourceStartEndExtraB>()
-                        {
-                            new MikeSourceStartEndExtraB()
-                            {
-                                HasErrors = mikeSourceStartEndService.Query.HasErrors,
-                                ValidationResults = mikeSourceStartEndService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(mikeSourceStartEndService.GetMikeSourceStartEndExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    mikeSourceStartEndService.Query = mikeSourceStartEndService.FillQuery(typeof(MikeSourceStartEnd), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 mikeSourceStartEndService.Query = mikeSourceStartEndService.FillQuery(typeof(MikeSourceStartEnd), lang, 0, 1, "", "", extra);
 
-                if (mikeSourceStartEndService.Query.Extra == "A")
-                {
-                    MikeSourceStartEndExtraA mikeSourceStartEndExtraA = new MikeSourceStartEndExtraA();
-                    mikeSourceStartEndExtraA = mikeSourceStartEndService.GetMikeSourceStartEndExtraAWithMikeSourceStartEndID(MikeSourceStartEndID);
-
-                    if (mikeSourceStartEndExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(mikeSourceStartEndExtraA);
-                }
-                else if (mikeSourceStartEndService.Query.Extra == "B")
-                {
-                    MikeSourceStartEndExtraB mikeSourceStartEndExtraB = new MikeSourceStartEndExtraB();
-                    mikeSourceStartEndExtraB = mikeSourceStartEndService.GetMikeSourceStartEndExtraBWithMikeSourceStartEndID(MikeSourceStartEndID);
-
-                    if (mikeSourceStartEndExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(mikeSourceStartEndExtraB);
-                }
                 else
                 {
                     MikeSourceStartEnd mikeSourceStartEnd = new MikeSourceStartEnd();

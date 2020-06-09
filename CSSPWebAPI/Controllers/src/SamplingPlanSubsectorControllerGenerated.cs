@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 SamplingPlanSubsectorService samplingPlanSubsectorService = new SamplingPlanSubsectorService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   samplingPlanSubsectorService.Query = samplingPlanSubsectorService.FillQuery(typeof(SamplingPlanSubsectorExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (samplingPlanSubsectorService.Query.HasErrors)
-                    {
-                        return Ok(new List<SamplingPlanSubsectorExtraA>()
-                        {
-                            new SamplingPlanSubsectorExtraA()
-                            {
-                                HasErrors = samplingPlanSubsectorService.Query.HasErrors,
-                                ValidationResults = samplingPlanSubsectorService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(samplingPlanSubsectorService.GetSamplingPlanSubsectorExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   samplingPlanSubsectorService.Query = samplingPlanSubsectorService.FillQuery(typeof(SamplingPlanSubsectorExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (samplingPlanSubsectorService.Query.HasErrors)
-                    {
-                        return Ok(new List<SamplingPlanSubsectorExtraB>()
-                        {
-                            new SamplingPlanSubsectorExtraB()
-                            {
-                                HasErrors = samplingPlanSubsectorService.Query.HasErrors,
-                                ValidationResults = samplingPlanSubsectorService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(samplingPlanSubsectorService.GetSamplingPlanSubsectorExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    samplingPlanSubsectorService.Query = samplingPlanSubsectorService.FillQuery(typeof(SamplingPlanSubsector), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 samplingPlanSubsectorService.Query = samplingPlanSubsectorService.FillQuery(typeof(SamplingPlanSubsector), lang, 0, 1, "", "", extra);
 
-                if (samplingPlanSubsectorService.Query.Extra == "A")
-                {
-                    SamplingPlanSubsectorExtraA samplingPlanSubsectorExtraA = new SamplingPlanSubsectorExtraA();
-                    samplingPlanSubsectorExtraA = samplingPlanSubsectorService.GetSamplingPlanSubsectorExtraAWithSamplingPlanSubsectorID(SamplingPlanSubsectorID);
-
-                    if (samplingPlanSubsectorExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(samplingPlanSubsectorExtraA);
-                }
-                else if (samplingPlanSubsectorService.Query.Extra == "B")
-                {
-                    SamplingPlanSubsectorExtraB samplingPlanSubsectorExtraB = new SamplingPlanSubsectorExtraB();
-                    samplingPlanSubsectorExtraB = samplingPlanSubsectorService.GetSamplingPlanSubsectorExtraBWithSamplingPlanSubsectorID(SamplingPlanSubsectorID);
-
-                    if (samplingPlanSubsectorExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(samplingPlanSubsectorExtraB);
-                }
                 else
                 {
                     SamplingPlanSubsector samplingPlanSubsector = new SamplingPlanSubsector();

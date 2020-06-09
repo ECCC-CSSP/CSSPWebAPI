@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 UseOfSiteService useOfSiteService = new UseOfSiteService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   useOfSiteService.Query = useOfSiteService.FillQuery(typeof(UseOfSiteExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (useOfSiteService.Query.HasErrors)
-                    {
-                        return Ok(new List<UseOfSiteExtraA>()
-                        {
-                            new UseOfSiteExtraA()
-                            {
-                                HasErrors = useOfSiteService.Query.HasErrors,
-                                ValidationResults = useOfSiteService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(useOfSiteService.GetUseOfSiteExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   useOfSiteService.Query = useOfSiteService.FillQuery(typeof(UseOfSiteExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (useOfSiteService.Query.HasErrors)
-                    {
-                        return Ok(new List<UseOfSiteExtraB>()
-                        {
-                            new UseOfSiteExtraB()
-                            {
-                                HasErrors = useOfSiteService.Query.HasErrors,
-                                ValidationResults = useOfSiteService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(useOfSiteService.GetUseOfSiteExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    useOfSiteService.Query = useOfSiteService.FillQuery(typeof(UseOfSite), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 useOfSiteService.Query = useOfSiteService.FillQuery(typeof(UseOfSite), lang, 0, 1, "", "", extra);
 
-                if (useOfSiteService.Query.Extra == "A")
-                {
-                    UseOfSiteExtraA useOfSiteExtraA = new UseOfSiteExtraA();
-                    useOfSiteExtraA = useOfSiteService.GetUseOfSiteExtraAWithUseOfSiteID(UseOfSiteID);
-
-                    if (useOfSiteExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(useOfSiteExtraA);
-                }
-                else if (useOfSiteService.Query.Extra == "B")
-                {
-                    UseOfSiteExtraB useOfSiteExtraB = new UseOfSiteExtraB();
-                    useOfSiteExtraB = useOfSiteService.GetUseOfSiteExtraBWithUseOfSiteID(UseOfSiteID);
-
-                    if (useOfSiteExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(useOfSiteExtraB);
-                }
                 else
                 {
                     UseOfSite useOfSite = new UseOfSite();

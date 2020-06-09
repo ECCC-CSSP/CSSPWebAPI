@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 SpillService spillService = new SpillService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   spillService.Query = spillService.FillQuery(typeof(SpillExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (spillService.Query.HasErrors)
-                    {
-                        return Ok(new List<SpillExtraA>()
-                        {
-                            new SpillExtraA()
-                            {
-                                HasErrors = spillService.Query.HasErrors,
-                                ValidationResults = spillService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(spillService.GetSpillExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   spillService.Query = spillService.FillQuery(typeof(SpillExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (spillService.Query.HasErrors)
-                    {
-                        return Ok(new List<SpillExtraB>()
-                        {
-                            new SpillExtraB()
-                            {
-                                HasErrors = spillService.Query.HasErrors,
-                                ValidationResults = spillService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(spillService.GetSpillExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    spillService.Query = spillService.FillQuery(typeof(Spill), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 spillService.Query = spillService.FillQuery(typeof(Spill), lang, 0, 1, "", "", extra);
 
-                if (spillService.Query.Extra == "A")
-                {
-                    SpillExtraA spillExtraA = new SpillExtraA();
-                    spillExtraA = spillService.GetSpillExtraAWithSpillID(SpillID);
-
-                    if (spillExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(spillExtraA);
-                }
-                else if (spillService.Query.Extra == "B")
-                {
-                    SpillExtraB spillExtraB = new SpillExtraB();
-                    spillExtraB = spillService.GetSpillExtraBWithSpillID(SpillID);
-
-                    if (spillExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(spillExtraB);
-                }
                 else
                 {
                     Spill spill = new Spill();

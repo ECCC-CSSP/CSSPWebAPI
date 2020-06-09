@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 TideDataValueService tideDataValueService = new TideDataValueService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   tideDataValueService.Query = tideDataValueService.FillQuery(typeof(TideDataValueExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (tideDataValueService.Query.HasErrors)
-                    {
-                        return Ok(new List<TideDataValueExtraA>()
-                        {
-                            new TideDataValueExtraA()
-                            {
-                                HasErrors = tideDataValueService.Query.HasErrors,
-                                ValidationResults = tideDataValueService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(tideDataValueService.GetTideDataValueExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   tideDataValueService.Query = tideDataValueService.FillQuery(typeof(TideDataValueExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (tideDataValueService.Query.HasErrors)
-                    {
-                        return Ok(new List<TideDataValueExtraB>()
-                        {
-                            new TideDataValueExtraB()
-                            {
-                                HasErrors = tideDataValueService.Query.HasErrors,
-                                ValidationResults = tideDataValueService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(tideDataValueService.GetTideDataValueExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    tideDataValueService.Query = tideDataValueService.FillQuery(typeof(TideDataValue), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 tideDataValueService.Query = tideDataValueService.FillQuery(typeof(TideDataValue), lang, 0, 1, "", "", extra);
 
-                if (tideDataValueService.Query.Extra == "A")
-                {
-                    TideDataValueExtraA tideDataValueExtraA = new TideDataValueExtraA();
-                    tideDataValueExtraA = tideDataValueService.GetTideDataValueExtraAWithTideDataValueID(TideDataValueID);
-
-                    if (tideDataValueExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(tideDataValueExtraA);
-                }
-                else if (tideDataValueService.Query.Extra == "B")
-                {
-                    TideDataValueExtraB tideDataValueExtraB = new TideDataValueExtraB();
-                    tideDataValueExtraB = tideDataValueService.GetTideDataValueExtraBWithTideDataValueID(TideDataValueID);
-
-                    if (tideDataValueExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(tideDataValueExtraB);
-                }
                 else
                 {
                     TideDataValue tideDataValue = new TideDataValue();

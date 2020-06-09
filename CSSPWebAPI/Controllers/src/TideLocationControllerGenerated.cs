@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 TideLocationService tideLocationService = new TideLocationService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   tideLocationService.Query = tideLocationService.FillQuery(typeof(TideLocationExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (tideLocationService.Query.HasErrors)
-                    {
-                        return Ok(new List<TideLocationExtraA>()
-                        {
-                            new TideLocationExtraA()
-                            {
-                                HasErrors = tideLocationService.Query.HasErrors,
-                                ValidationResults = tideLocationService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(tideLocationService.GetTideLocationExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   tideLocationService.Query = tideLocationService.FillQuery(typeof(TideLocationExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (tideLocationService.Query.HasErrors)
-                    {
-                        return Ok(new List<TideLocationExtraB>()
-                        {
-                            new TideLocationExtraB()
-                            {
-                                HasErrors = tideLocationService.Query.HasErrors,
-                                ValidationResults = tideLocationService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(tideLocationService.GetTideLocationExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    tideLocationService.Query = tideLocationService.FillQuery(typeof(TideLocation), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 tideLocationService.Query = tideLocationService.FillQuery(typeof(TideLocation), lang, 0, 1, "", "", extra);
 
-                if (tideLocationService.Query.Extra == "A")
-                {
-                    TideLocationExtraA tideLocationExtraA = new TideLocationExtraA();
-                    tideLocationExtraA = tideLocationService.GetTideLocationExtraAWithTideLocationID(TideLocationID);
-
-                    if (tideLocationExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(tideLocationExtraA);
-                }
-                else if (tideLocationService.Query.Extra == "B")
-                {
-                    TideLocationExtraB tideLocationExtraB = new TideLocationExtraB();
-                    tideLocationExtraB = tideLocationService.GetTideLocationExtraBWithTideLocationID(TideLocationID);
-
-                    if (tideLocationExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(tideLocationExtraB);
-                }
                 else
                 {
                     TideLocation tideLocation = new TideLocation();

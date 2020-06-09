@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 PolSourceSiteService polSourceSiteService = new PolSourceSiteService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   polSourceSiteService.Query = polSourceSiteService.FillQuery(typeof(PolSourceSiteExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (polSourceSiteService.Query.HasErrors)
-                    {
-                        return Ok(new List<PolSourceSiteExtraA>()
-                        {
-                            new PolSourceSiteExtraA()
-                            {
-                                HasErrors = polSourceSiteService.Query.HasErrors,
-                                ValidationResults = polSourceSiteService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(polSourceSiteService.GetPolSourceSiteExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   polSourceSiteService.Query = polSourceSiteService.FillQuery(typeof(PolSourceSiteExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (polSourceSiteService.Query.HasErrors)
-                    {
-                        return Ok(new List<PolSourceSiteExtraB>()
-                        {
-                            new PolSourceSiteExtraB()
-                            {
-                                HasErrors = polSourceSiteService.Query.HasErrors,
-                                ValidationResults = polSourceSiteService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(polSourceSiteService.GetPolSourceSiteExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    polSourceSiteService.Query = polSourceSiteService.FillQuery(typeof(PolSourceSite), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 polSourceSiteService.Query = polSourceSiteService.FillQuery(typeof(PolSourceSite), lang, 0, 1, "", "", extra);
 
-                if (polSourceSiteService.Query.Extra == "A")
-                {
-                    PolSourceSiteExtraA polSourceSiteExtraA = new PolSourceSiteExtraA();
-                    polSourceSiteExtraA = polSourceSiteService.GetPolSourceSiteExtraAWithPolSourceSiteID(PolSourceSiteID);
-
-                    if (polSourceSiteExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(polSourceSiteExtraA);
-                }
-                else if (polSourceSiteService.Query.Extra == "B")
-                {
-                    PolSourceSiteExtraB polSourceSiteExtraB = new PolSourceSiteExtraB();
-                    polSourceSiteExtraB = polSourceSiteService.GetPolSourceSiteExtraBWithPolSourceSiteID(PolSourceSiteID);
-
-                    if (polSourceSiteExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(polSourceSiteExtraB);
-                }
                 else
                 {
                     PolSourceSite polSourceSite = new PolSourceSite();

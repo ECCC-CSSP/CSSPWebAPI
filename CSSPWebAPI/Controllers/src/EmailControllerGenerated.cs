@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 EmailService emailService = new EmailService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   emailService.Query = emailService.FillQuery(typeof(EmailExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (emailService.Query.HasErrors)
-                    {
-                        return Ok(new List<EmailExtraA>()
-                        {
-                            new EmailExtraA()
-                            {
-                                HasErrors = emailService.Query.HasErrors,
-                                ValidationResults = emailService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(emailService.GetEmailExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   emailService.Query = emailService.FillQuery(typeof(EmailExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (emailService.Query.HasErrors)
-                    {
-                        return Ok(new List<EmailExtraB>()
-                        {
-                            new EmailExtraB()
-                            {
-                                HasErrors = emailService.Query.HasErrors,
-                                ValidationResults = emailService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(emailService.GetEmailExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    emailService.Query = emailService.FillQuery(typeof(Email), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 emailService.Query = emailService.FillQuery(typeof(Email), lang, 0, 1, "", "", extra);
 
-                if (emailService.Query.Extra == "A")
-                {
-                    EmailExtraA emailExtraA = new EmailExtraA();
-                    emailExtraA = emailService.GetEmailExtraAWithEmailID(EmailID);
-
-                    if (emailExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(emailExtraA);
-                }
-                else if (emailService.Query.Extra == "B")
-                {
-                    EmailExtraB emailExtraB = new EmailExtraB();
-                    emailExtraB = emailService.GetEmailExtraBWithEmailID(EmailID);
-
-                    if (emailExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(emailExtraB);
-                }
                 else
                 {
                     Email email = new Email();

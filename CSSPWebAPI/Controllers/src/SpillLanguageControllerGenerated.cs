@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 SpillLanguageService spillLanguageService = new SpillLanguageService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   spillLanguageService.Query = spillLanguageService.FillQuery(typeof(SpillLanguageExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (spillLanguageService.Query.HasErrors)
-                    {
-                        return Ok(new List<SpillLanguageExtraA>()
-                        {
-                            new SpillLanguageExtraA()
-                            {
-                                HasErrors = spillLanguageService.Query.HasErrors,
-                                ValidationResults = spillLanguageService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(spillLanguageService.GetSpillLanguageExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   spillLanguageService.Query = spillLanguageService.FillQuery(typeof(SpillLanguageExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (spillLanguageService.Query.HasErrors)
-                    {
-                        return Ok(new List<SpillLanguageExtraB>()
-                        {
-                            new SpillLanguageExtraB()
-                            {
-                                HasErrors = spillLanguageService.Query.HasErrors,
-                                ValidationResults = spillLanguageService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(spillLanguageService.GetSpillLanguageExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    spillLanguageService.Query = spillLanguageService.FillQuery(typeof(SpillLanguage), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 spillLanguageService.Query = spillLanguageService.FillQuery(typeof(SpillLanguage), lang, 0, 1, "", "", extra);
 
-                if (spillLanguageService.Query.Extra == "A")
-                {
-                    SpillLanguageExtraA spillLanguageExtraA = new SpillLanguageExtraA();
-                    spillLanguageExtraA = spillLanguageService.GetSpillLanguageExtraAWithSpillLanguageID(SpillLanguageID);
-
-                    if (spillLanguageExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(spillLanguageExtraA);
-                }
-                else if (spillLanguageService.Query.Extra == "B")
-                {
-                    SpillLanguageExtraB spillLanguageExtraB = new SpillLanguageExtraB();
-                    spillLanguageExtraB = spillLanguageService.GetSpillLanguageExtraBWithSpillLanguageID(SpillLanguageID);
-
-                    if (spillLanguageExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(spillLanguageExtraB);
-                }
                 else
                 {
                     SpillLanguage spillLanguage = new SpillLanguage();

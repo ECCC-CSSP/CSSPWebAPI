@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 MWQMRunLanguageService mwqmRunLanguageService = new MWQMRunLanguageService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   mwqmRunLanguageService.Query = mwqmRunLanguageService.FillQuery(typeof(MWQMRunLanguageExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (mwqmRunLanguageService.Query.HasErrors)
-                    {
-                        return Ok(new List<MWQMRunLanguageExtraA>()
-                        {
-                            new MWQMRunLanguageExtraA()
-                            {
-                                HasErrors = mwqmRunLanguageService.Query.HasErrors,
-                                ValidationResults = mwqmRunLanguageService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(mwqmRunLanguageService.GetMWQMRunLanguageExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   mwqmRunLanguageService.Query = mwqmRunLanguageService.FillQuery(typeof(MWQMRunLanguageExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (mwqmRunLanguageService.Query.HasErrors)
-                    {
-                        return Ok(new List<MWQMRunLanguageExtraB>()
-                        {
-                            new MWQMRunLanguageExtraB()
-                            {
-                                HasErrors = mwqmRunLanguageService.Query.HasErrors,
-                                ValidationResults = mwqmRunLanguageService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(mwqmRunLanguageService.GetMWQMRunLanguageExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    mwqmRunLanguageService.Query = mwqmRunLanguageService.FillQuery(typeof(MWQMRunLanguage), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 mwqmRunLanguageService.Query = mwqmRunLanguageService.FillQuery(typeof(MWQMRunLanguage), lang, 0, 1, "", "", extra);
 
-                if (mwqmRunLanguageService.Query.Extra == "A")
-                {
-                    MWQMRunLanguageExtraA mwqmRunLanguageExtraA = new MWQMRunLanguageExtraA();
-                    mwqmRunLanguageExtraA = mwqmRunLanguageService.GetMWQMRunLanguageExtraAWithMWQMRunLanguageID(MWQMRunLanguageID);
-
-                    if (mwqmRunLanguageExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(mwqmRunLanguageExtraA);
-                }
-                else if (mwqmRunLanguageService.Query.Extra == "B")
-                {
-                    MWQMRunLanguageExtraB mwqmRunLanguageExtraB = new MWQMRunLanguageExtraB();
-                    mwqmRunLanguageExtraB = mwqmRunLanguageService.GetMWQMRunLanguageExtraBWithMWQMRunLanguageID(MWQMRunLanguageID);
-
-                    if (mwqmRunLanguageExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(mwqmRunLanguageExtraB);
-                }
                 else
                 {
                     MWQMRunLanguage mwqmRunLanguage = new MWQMRunLanguage();

@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 ContactService contactService = new ContactService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   contactService.Query = contactService.FillQuery(typeof(ContactExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (contactService.Query.HasErrors)
-                    {
-                        return Ok(new List<ContactExtraA>()
-                        {
-                            new ContactExtraA()
-                            {
-                                HasErrors = contactService.Query.HasErrors,
-                                ValidationResults = contactService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(contactService.GetContactExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   contactService.Query = contactService.FillQuery(typeof(ContactExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (contactService.Query.HasErrors)
-                    {
-                        return Ok(new List<ContactExtraB>()
-                        {
-                            new ContactExtraB()
-                            {
-                                HasErrors = contactService.Query.HasErrors,
-                                ValidationResults = contactService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(contactService.GetContactExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    contactService.Query = contactService.FillQuery(typeof(Contact), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 contactService.Query = contactService.FillQuery(typeof(Contact), lang, 0, 1, "", "", extra);
 
-                if (contactService.Query.Extra == "A")
-                {
-                    ContactExtraA contactExtraA = new ContactExtraA();
-                    contactExtraA = contactService.GetContactExtraAWithContactID(ContactID);
-
-                    if (contactExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(contactExtraA);
-                }
-                else if (contactService.Query.Extra == "B")
-                {
-                    ContactExtraB contactExtraB = new ContactExtraB();
-                    contactExtraB = contactService.GetContactExtraBWithContactID(ContactID);
-
-                    if (contactExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(contactExtraB);
-                }
                 else
                 {
                     Contact contact = new Contact();

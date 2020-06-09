@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 VPAmbientService vpAmbientService = new VPAmbientService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   vpAmbientService.Query = vpAmbientService.FillQuery(typeof(VPAmbientExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (vpAmbientService.Query.HasErrors)
-                    {
-                        return Ok(new List<VPAmbientExtraA>()
-                        {
-                            new VPAmbientExtraA()
-                            {
-                                HasErrors = vpAmbientService.Query.HasErrors,
-                                ValidationResults = vpAmbientService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(vpAmbientService.GetVPAmbientExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   vpAmbientService.Query = vpAmbientService.FillQuery(typeof(VPAmbientExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (vpAmbientService.Query.HasErrors)
-                    {
-                        return Ok(new List<VPAmbientExtraB>()
-                        {
-                            new VPAmbientExtraB()
-                            {
-                                HasErrors = vpAmbientService.Query.HasErrors,
-                                ValidationResults = vpAmbientService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(vpAmbientService.GetVPAmbientExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    vpAmbientService.Query = vpAmbientService.FillQuery(typeof(VPAmbient), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 vpAmbientService.Query = vpAmbientService.FillQuery(typeof(VPAmbient), lang, 0, 1, "", "", extra);
 
-                if (vpAmbientService.Query.Extra == "A")
-                {
-                    VPAmbientExtraA vpAmbientExtraA = new VPAmbientExtraA();
-                    vpAmbientExtraA = vpAmbientService.GetVPAmbientExtraAWithVPAmbientID(VPAmbientID);
-
-                    if (vpAmbientExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(vpAmbientExtraA);
-                }
-                else if (vpAmbientService.Query.Extra == "B")
-                {
-                    VPAmbientExtraB vpAmbientExtraB = new VPAmbientExtraB();
-                    vpAmbientExtraB = vpAmbientService.GetVPAmbientExtraBWithVPAmbientID(VPAmbientID);
-
-                    if (vpAmbientExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(vpAmbientExtraB);
-                }
                 else
                 {
                     VPAmbient vpAmbient = new VPAmbient();

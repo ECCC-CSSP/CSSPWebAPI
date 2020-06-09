@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 VPResultService vpResultService = new VPResultService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   vpResultService.Query = vpResultService.FillQuery(typeof(VPResultExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (vpResultService.Query.HasErrors)
-                    {
-                        return Ok(new List<VPResultExtraA>()
-                        {
-                            new VPResultExtraA()
-                            {
-                                HasErrors = vpResultService.Query.HasErrors,
-                                ValidationResults = vpResultService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(vpResultService.GetVPResultExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   vpResultService.Query = vpResultService.FillQuery(typeof(VPResultExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (vpResultService.Query.HasErrors)
-                    {
-                        return Ok(new List<VPResultExtraB>()
-                        {
-                            new VPResultExtraB()
-                            {
-                                HasErrors = vpResultService.Query.HasErrors,
-                                ValidationResults = vpResultService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(vpResultService.GetVPResultExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    vpResultService.Query = vpResultService.FillQuery(typeof(VPResult), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 vpResultService.Query = vpResultService.FillQuery(typeof(VPResult), lang, 0, 1, "", "", extra);
 
-                if (vpResultService.Query.Extra == "A")
-                {
-                    VPResultExtraA vpResultExtraA = new VPResultExtraA();
-                    vpResultExtraA = vpResultService.GetVPResultExtraAWithVPResultID(VPResultID);
-
-                    if (vpResultExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(vpResultExtraA);
-                }
-                else if (vpResultService.Query.Extra == "B")
-                {
-                    VPResultExtraB vpResultExtraB = new VPResultExtraB();
-                    vpResultExtraB = vpResultService.GetVPResultExtraBWithVPResultID(VPResultID);
-
-                    if (vpResultExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(vpResultExtraB);
-                }
                 else
                 {
                     VPResult vpResult = new VPResult();

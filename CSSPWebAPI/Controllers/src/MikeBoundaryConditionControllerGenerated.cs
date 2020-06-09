@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 MikeBoundaryConditionService mikeBoundaryConditionService = new MikeBoundaryConditionService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   mikeBoundaryConditionService.Query = mikeBoundaryConditionService.FillQuery(typeof(MikeBoundaryConditionExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (mikeBoundaryConditionService.Query.HasErrors)
-                    {
-                        return Ok(new List<MikeBoundaryConditionExtraA>()
-                        {
-                            new MikeBoundaryConditionExtraA()
-                            {
-                                HasErrors = mikeBoundaryConditionService.Query.HasErrors,
-                                ValidationResults = mikeBoundaryConditionService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(mikeBoundaryConditionService.GetMikeBoundaryConditionExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   mikeBoundaryConditionService.Query = mikeBoundaryConditionService.FillQuery(typeof(MikeBoundaryConditionExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (mikeBoundaryConditionService.Query.HasErrors)
-                    {
-                        return Ok(new List<MikeBoundaryConditionExtraB>()
-                        {
-                            new MikeBoundaryConditionExtraB()
-                            {
-                                HasErrors = mikeBoundaryConditionService.Query.HasErrors,
-                                ValidationResults = mikeBoundaryConditionService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(mikeBoundaryConditionService.GetMikeBoundaryConditionExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    mikeBoundaryConditionService.Query = mikeBoundaryConditionService.FillQuery(typeof(MikeBoundaryCondition), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 mikeBoundaryConditionService.Query = mikeBoundaryConditionService.FillQuery(typeof(MikeBoundaryCondition), lang, 0, 1, "", "", extra);
 
-                if (mikeBoundaryConditionService.Query.Extra == "A")
-                {
-                    MikeBoundaryConditionExtraA mikeBoundaryConditionExtraA = new MikeBoundaryConditionExtraA();
-                    mikeBoundaryConditionExtraA = mikeBoundaryConditionService.GetMikeBoundaryConditionExtraAWithMikeBoundaryConditionID(MikeBoundaryConditionID);
-
-                    if (mikeBoundaryConditionExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(mikeBoundaryConditionExtraA);
-                }
-                else if (mikeBoundaryConditionService.Query.Extra == "B")
-                {
-                    MikeBoundaryConditionExtraB mikeBoundaryConditionExtraB = new MikeBoundaryConditionExtraB();
-                    mikeBoundaryConditionExtraB = mikeBoundaryConditionService.GetMikeBoundaryConditionExtraBWithMikeBoundaryConditionID(MikeBoundaryConditionID);
-
-                    if (mikeBoundaryConditionExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(mikeBoundaryConditionExtraB);
-                }
                 else
                 {
                     MikeBoundaryCondition mikeBoundaryCondition = new MikeBoundaryCondition();

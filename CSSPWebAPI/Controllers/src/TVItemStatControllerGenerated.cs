@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 TVItemStatService tvItemStatService = new TVItemStatService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   tvItemStatService.Query = tvItemStatService.FillQuery(typeof(TVItemStatExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (tvItemStatService.Query.HasErrors)
-                    {
-                        return Ok(new List<TVItemStatExtraA>()
-                        {
-                            new TVItemStatExtraA()
-                            {
-                                HasErrors = tvItemStatService.Query.HasErrors,
-                                ValidationResults = tvItemStatService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(tvItemStatService.GetTVItemStatExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   tvItemStatService.Query = tvItemStatService.FillQuery(typeof(TVItemStatExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (tvItemStatService.Query.HasErrors)
-                    {
-                        return Ok(new List<TVItemStatExtraB>()
-                        {
-                            new TVItemStatExtraB()
-                            {
-                                HasErrors = tvItemStatService.Query.HasErrors,
-                                ValidationResults = tvItemStatService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(tvItemStatService.GetTVItemStatExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    tvItemStatService.Query = tvItemStatService.FillQuery(typeof(TVItemStat), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 tvItemStatService.Query = tvItemStatService.FillQuery(typeof(TVItemStat), lang, 0, 1, "", "", extra);
 
-                if (tvItemStatService.Query.Extra == "A")
-                {
-                    TVItemStatExtraA tvItemStatExtraA = new TVItemStatExtraA();
-                    tvItemStatExtraA = tvItemStatService.GetTVItemStatExtraAWithTVItemStatID(TVItemStatID);
-
-                    if (tvItemStatExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(tvItemStatExtraA);
-                }
-                else if (tvItemStatService.Query.Extra == "B")
-                {
-                    TVItemStatExtraB tvItemStatExtraB = new TVItemStatExtraB();
-                    tvItemStatExtraB = tvItemStatService.GetTVItemStatExtraBWithTVItemStatID(TVItemStatID);
-
-                    if (tvItemStatExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(tvItemStatExtraB);
-                }
                 else
                 {
                     TVItemStat tvItemStat = new TVItemStat();

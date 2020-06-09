@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 InfrastructureService infrastructureService = new InfrastructureService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   infrastructureService.Query = infrastructureService.FillQuery(typeof(InfrastructureExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (infrastructureService.Query.HasErrors)
-                    {
-                        return Ok(new List<InfrastructureExtraA>()
-                        {
-                            new InfrastructureExtraA()
-                            {
-                                HasErrors = infrastructureService.Query.HasErrors,
-                                ValidationResults = infrastructureService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(infrastructureService.GetInfrastructureExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   infrastructureService.Query = infrastructureService.FillQuery(typeof(InfrastructureExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (infrastructureService.Query.HasErrors)
-                    {
-                        return Ok(new List<InfrastructureExtraB>()
-                        {
-                            new InfrastructureExtraB()
-                            {
-                                HasErrors = infrastructureService.Query.HasErrors,
-                                ValidationResults = infrastructureService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(infrastructureService.GetInfrastructureExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    infrastructureService.Query = infrastructureService.FillQuery(typeof(Infrastructure), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 infrastructureService.Query = infrastructureService.FillQuery(typeof(Infrastructure), lang, 0, 1, "", "", extra);
 
-                if (infrastructureService.Query.Extra == "A")
-                {
-                    InfrastructureExtraA infrastructureExtraA = new InfrastructureExtraA();
-                    infrastructureExtraA = infrastructureService.GetInfrastructureExtraAWithInfrastructureID(InfrastructureID);
-
-                    if (infrastructureExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(infrastructureExtraA);
-                }
-                else if (infrastructureService.Query.Extra == "B")
-                {
-                    InfrastructureExtraB infrastructureExtraB = new InfrastructureExtraB();
-                    infrastructureExtraB = infrastructureService.GetInfrastructureExtraBWithInfrastructureID(InfrastructureID);
-
-                    if (infrastructureExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(infrastructureExtraB);
-                }
                 else
                 {
                     Infrastructure infrastructure = new Infrastructure();

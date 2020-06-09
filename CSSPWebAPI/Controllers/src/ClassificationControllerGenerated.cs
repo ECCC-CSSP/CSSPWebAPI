@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 ClassificationService classificationService = new ClassificationService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   classificationService.Query = classificationService.FillQuery(typeof(ClassificationExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (classificationService.Query.HasErrors)
-                    {
-                        return Ok(new List<ClassificationExtraA>()
-                        {
-                            new ClassificationExtraA()
-                            {
-                                HasErrors = classificationService.Query.HasErrors,
-                                ValidationResults = classificationService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(classificationService.GetClassificationExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   classificationService.Query = classificationService.FillQuery(typeof(ClassificationExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (classificationService.Query.HasErrors)
-                    {
-                        return Ok(new List<ClassificationExtraB>()
-                        {
-                            new ClassificationExtraB()
-                            {
-                                HasErrors = classificationService.Query.HasErrors,
-                                ValidationResults = classificationService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(classificationService.GetClassificationExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    classificationService.Query = classificationService.FillQuery(typeof(Classification), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 classificationService.Query = classificationService.FillQuery(typeof(Classification), lang, 0, 1, "", "", extra);
 
-                if (classificationService.Query.Extra == "A")
-                {
-                    ClassificationExtraA classificationExtraA = new ClassificationExtraA();
-                    classificationExtraA = classificationService.GetClassificationExtraAWithClassificationID(ClassificationID);
-
-                    if (classificationExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(classificationExtraA);
-                }
-                else if (classificationService.Query.Extra == "B")
-                {
-                    ClassificationExtraB classificationExtraB = new ClassificationExtraB();
-                    classificationExtraB = classificationService.GetClassificationExtraBWithClassificationID(ClassificationID);
-
-                    if (classificationExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(classificationExtraB);
-                }
                 else
                 {
                     Classification classification = new Classification();

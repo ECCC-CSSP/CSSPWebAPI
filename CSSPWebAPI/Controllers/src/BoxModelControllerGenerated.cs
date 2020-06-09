@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 BoxModelService boxModelService = new BoxModelService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   boxModelService.Query = boxModelService.FillQuery(typeof(BoxModelExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (boxModelService.Query.HasErrors)
-                    {
-                        return Ok(new List<BoxModelExtraA>()
-                        {
-                            new BoxModelExtraA()
-                            {
-                                HasErrors = boxModelService.Query.HasErrors,
-                                ValidationResults = boxModelService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(boxModelService.GetBoxModelExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   boxModelService.Query = boxModelService.FillQuery(typeof(BoxModelExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (boxModelService.Query.HasErrors)
-                    {
-                        return Ok(new List<BoxModelExtraB>()
-                        {
-                            new BoxModelExtraB()
-                            {
-                                HasErrors = boxModelService.Query.HasErrors,
-                                ValidationResults = boxModelService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(boxModelService.GetBoxModelExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    boxModelService.Query = boxModelService.FillQuery(typeof(BoxModel), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 boxModelService.Query = boxModelService.FillQuery(typeof(BoxModel), lang, 0, 1, "", "", extra);
 
-                if (boxModelService.Query.Extra == "A")
-                {
-                    BoxModelExtraA boxModelExtraA = new BoxModelExtraA();
-                    boxModelExtraA = boxModelService.GetBoxModelExtraAWithBoxModelID(BoxModelID);
-
-                    if (boxModelExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(boxModelExtraA);
-                }
-                else if (boxModelService.Query.Extra == "B")
-                {
-                    BoxModelExtraB boxModelExtraB = new BoxModelExtraB();
-                    boxModelExtraB = boxModelService.GetBoxModelExtraBWithBoxModelID(BoxModelID);
-
-                    if (boxModelExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(boxModelExtraB);
-                }
                 else
                 {
                     BoxModel boxModel = new BoxModel();

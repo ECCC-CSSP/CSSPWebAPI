@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 ClimateSiteService climateSiteService = new ClimateSiteService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   climateSiteService.Query = climateSiteService.FillQuery(typeof(ClimateSiteExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (climateSiteService.Query.HasErrors)
-                    {
-                        return Ok(new List<ClimateSiteExtraA>()
-                        {
-                            new ClimateSiteExtraA()
-                            {
-                                HasErrors = climateSiteService.Query.HasErrors,
-                                ValidationResults = climateSiteService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(climateSiteService.GetClimateSiteExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   climateSiteService.Query = climateSiteService.FillQuery(typeof(ClimateSiteExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (climateSiteService.Query.HasErrors)
-                    {
-                        return Ok(new List<ClimateSiteExtraB>()
-                        {
-                            new ClimateSiteExtraB()
-                            {
-                                HasErrors = climateSiteService.Query.HasErrors,
-                                ValidationResults = climateSiteService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(climateSiteService.GetClimateSiteExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    climateSiteService.Query = climateSiteService.FillQuery(typeof(ClimateSite), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 climateSiteService.Query = climateSiteService.FillQuery(typeof(ClimateSite), lang, 0, 1, "", "", extra);
 
-                if (climateSiteService.Query.Extra == "A")
-                {
-                    ClimateSiteExtraA climateSiteExtraA = new ClimateSiteExtraA();
-                    climateSiteExtraA = climateSiteService.GetClimateSiteExtraAWithClimateSiteID(ClimateSiteID);
-
-                    if (climateSiteExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(climateSiteExtraA);
-                }
-                else if (climateSiteService.Query.Extra == "B")
-                {
-                    ClimateSiteExtraB climateSiteExtraB = new ClimateSiteExtraB();
-                    climateSiteExtraB = climateSiteService.GetClimateSiteExtraBWithClimateSiteID(ClimateSiteID);
-
-                    if (climateSiteExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(climateSiteExtraB);
-                }
                 else
                 {
                     ClimateSite climateSite = new ClimateSite();

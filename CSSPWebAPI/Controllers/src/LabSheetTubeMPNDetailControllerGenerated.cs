@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 LabSheetTubeMPNDetailService labSheetTubeMPNDetailService = new LabSheetTubeMPNDetailService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   labSheetTubeMPNDetailService.Query = labSheetTubeMPNDetailService.FillQuery(typeof(LabSheetTubeMPNDetailExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (labSheetTubeMPNDetailService.Query.HasErrors)
-                    {
-                        return Ok(new List<LabSheetTubeMPNDetailExtraA>()
-                        {
-                            new LabSheetTubeMPNDetailExtraA()
-                            {
-                                HasErrors = labSheetTubeMPNDetailService.Query.HasErrors,
-                                ValidationResults = labSheetTubeMPNDetailService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   labSheetTubeMPNDetailService.Query = labSheetTubeMPNDetailService.FillQuery(typeof(LabSheetTubeMPNDetailExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (labSheetTubeMPNDetailService.Query.HasErrors)
-                    {
-                        return Ok(new List<LabSheetTubeMPNDetailExtraB>()
-                        {
-                            new LabSheetTubeMPNDetailExtraB()
-                            {
-                                HasErrors = labSheetTubeMPNDetailService.Query.HasErrors,
-                                ValidationResults = labSheetTubeMPNDetailService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    labSheetTubeMPNDetailService.Query = labSheetTubeMPNDetailService.FillQuery(typeof(LabSheetTubeMPNDetail), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 labSheetTubeMPNDetailService.Query = labSheetTubeMPNDetailService.FillQuery(typeof(LabSheetTubeMPNDetail), lang, 0, 1, "", "", extra);
 
-                if (labSheetTubeMPNDetailService.Query.Extra == "A")
-                {
-                    LabSheetTubeMPNDetailExtraA labSheetTubeMPNDetailExtraA = new LabSheetTubeMPNDetailExtraA();
-                    labSheetTubeMPNDetailExtraA = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailExtraAWithLabSheetTubeMPNDetailID(LabSheetTubeMPNDetailID);
-
-                    if (labSheetTubeMPNDetailExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(labSheetTubeMPNDetailExtraA);
-                }
-                else if (labSheetTubeMPNDetailService.Query.Extra == "B")
-                {
-                    LabSheetTubeMPNDetailExtraB labSheetTubeMPNDetailExtraB = new LabSheetTubeMPNDetailExtraB();
-                    labSheetTubeMPNDetailExtraB = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailExtraBWithLabSheetTubeMPNDetailID(LabSheetTubeMPNDetailID);
-
-                    if (labSheetTubeMPNDetailExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(labSheetTubeMPNDetailExtraB);
-                }
                 else
                 {
                     LabSheetTubeMPNDetail labSheetTubeMPNDetail = new LabSheetTubeMPNDetail();

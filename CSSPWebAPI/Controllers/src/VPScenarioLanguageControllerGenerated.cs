@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 VPScenarioLanguageService vpScenarioLanguageService = new VPScenarioLanguageService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   vpScenarioLanguageService.Query = vpScenarioLanguageService.FillQuery(typeof(VPScenarioLanguageExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (vpScenarioLanguageService.Query.HasErrors)
-                    {
-                        return Ok(new List<VPScenarioLanguageExtraA>()
-                        {
-                            new VPScenarioLanguageExtraA()
-                            {
-                                HasErrors = vpScenarioLanguageService.Query.HasErrors,
-                                ValidationResults = vpScenarioLanguageService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(vpScenarioLanguageService.GetVPScenarioLanguageExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   vpScenarioLanguageService.Query = vpScenarioLanguageService.FillQuery(typeof(VPScenarioLanguageExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (vpScenarioLanguageService.Query.HasErrors)
-                    {
-                        return Ok(new List<VPScenarioLanguageExtraB>()
-                        {
-                            new VPScenarioLanguageExtraB()
-                            {
-                                HasErrors = vpScenarioLanguageService.Query.HasErrors,
-                                ValidationResults = vpScenarioLanguageService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(vpScenarioLanguageService.GetVPScenarioLanguageExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    vpScenarioLanguageService.Query = vpScenarioLanguageService.FillQuery(typeof(VPScenarioLanguage), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 vpScenarioLanguageService.Query = vpScenarioLanguageService.FillQuery(typeof(VPScenarioLanguage), lang, 0, 1, "", "", extra);
 
-                if (vpScenarioLanguageService.Query.Extra == "A")
-                {
-                    VPScenarioLanguageExtraA vpScenarioLanguageExtraA = new VPScenarioLanguageExtraA();
-                    vpScenarioLanguageExtraA = vpScenarioLanguageService.GetVPScenarioLanguageExtraAWithVPScenarioLanguageID(VPScenarioLanguageID);
-
-                    if (vpScenarioLanguageExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(vpScenarioLanguageExtraA);
-                }
-                else if (vpScenarioLanguageService.Query.Extra == "B")
-                {
-                    VPScenarioLanguageExtraB vpScenarioLanguageExtraB = new VPScenarioLanguageExtraB();
-                    vpScenarioLanguageExtraB = vpScenarioLanguageService.GetVPScenarioLanguageExtraBWithVPScenarioLanguageID(VPScenarioLanguageID);
-
-                    if (vpScenarioLanguageExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(vpScenarioLanguageExtraB);
-                }
                 else
                 {
                     VPScenarioLanguage vpScenarioLanguage = new VPScenarioLanguage();

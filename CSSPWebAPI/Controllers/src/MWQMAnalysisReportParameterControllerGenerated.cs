@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 MWQMAnalysisReportParameterService mwqmAnalysisReportParameterService = new MWQMAnalysisReportParameterService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   mwqmAnalysisReportParameterService.Query = mwqmAnalysisReportParameterService.FillQuery(typeof(MWQMAnalysisReportParameterExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (mwqmAnalysisReportParameterService.Query.HasErrors)
-                    {
-                        return Ok(new List<MWQMAnalysisReportParameterExtraA>()
-                        {
-                            new MWQMAnalysisReportParameterExtraA()
-                            {
-                                HasErrors = mwqmAnalysisReportParameterService.Query.HasErrors,
-                                ValidationResults = mwqmAnalysisReportParameterService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   mwqmAnalysisReportParameterService.Query = mwqmAnalysisReportParameterService.FillQuery(typeof(MWQMAnalysisReportParameterExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (mwqmAnalysisReportParameterService.Query.HasErrors)
-                    {
-                        return Ok(new List<MWQMAnalysisReportParameterExtraB>()
-                        {
-                            new MWQMAnalysisReportParameterExtraB()
-                            {
-                                HasErrors = mwqmAnalysisReportParameterService.Query.HasErrors,
-                                ValidationResults = mwqmAnalysisReportParameterService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    mwqmAnalysisReportParameterService.Query = mwqmAnalysisReportParameterService.FillQuery(typeof(MWQMAnalysisReportParameter), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 mwqmAnalysisReportParameterService.Query = mwqmAnalysisReportParameterService.FillQuery(typeof(MWQMAnalysisReportParameter), lang, 0, 1, "", "", extra);
 
-                if (mwqmAnalysisReportParameterService.Query.Extra == "A")
-                {
-                    MWQMAnalysisReportParameterExtraA mwqmAnalysisReportParameterExtraA = new MWQMAnalysisReportParameterExtraA();
-                    mwqmAnalysisReportParameterExtraA = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterExtraAWithMWQMAnalysisReportParameterID(MWQMAnalysisReportParameterID);
-
-                    if (mwqmAnalysisReportParameterExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(mwqmAnalysisReportParameterExtraA);
-                }
-                else if (mwqmAnalysisReportParameterService.Query.Extra == "B")
-                {
-                    MWQMAnalysisReportParameterExtraB mwqmAnalysisReportParameterExtraB = new MWQMAnalysisReportParameterExtraB();
-                    mwqmAnalysisReportParameterExtraB = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterExtraBWithMWQMAnalysisReportParameterID(MWQMAnalysisReportParameterID);
-
-                    if (mwqmAnalysisReportParameterExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(mwqmAnalysisReportParameterExtraB);
-                }
                 else
                 {
                     MWQMAnalysisReportParameter mwqmAnalysisReportParameter = new MWQMAnalysisReportParameter();

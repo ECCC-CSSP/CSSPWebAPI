@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 MWQMSampleService mwqmSampleService = new MWQMSampleService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   mwqmSampleService.Query = mwqmSampleService.FillQuery(typeof(MWQMSampleExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (mwqmSampleService.Query.HasErrors)
-                    {
-                        return Ok(new List<MWQMSampleExtraA>()
-                        {
-                            new MWQMSampleExtraA()
-                            {
-                                HasErrors = mwqmSampleService.Query.HasErrors,
-                                ValidationResults = mwqmSampleService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(mwqmSampleService.GetMWQMSampleExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   mwqmSampleService.Query = mwqmSampleService.FillQuery(typeof(MWQMSampleExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (mwqmSampleService.Query.HasErrors)
-                    {
-                        return Ok(new List<MWQMSampleExtraB>()
-                        {
-                            new MWQMSampleExtraB()
-                            {
-                                HasErrors = mwqmSampleService.Query.HasErrors,
-                                ValidationResults = mwqmSampleService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(mwqmSampleService.GetMWQMSampleExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    mwqmSampleService.Query = mwqmSampleService.FillQuery(typeof(MWQMSample), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 mwqmSampleService.Query = mwqmSampleService.FillQuery(typeof(MWQMSample), lang, 0, 1, "", "", extra);
 
-                if (mwqmSampleService.Query.Extra == "A")
-                {
-                    MWQMSampleExtraA mwqmSampleExtraA = new MWQMSampleExtraA();
-                    mwqmSampleExtraA = mwqmSampleService.GetMWQMSampleExtraAWithMWQMSampleID(MWQMSampleID);
-
-                    if (mwqmSampleExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(mwqmSampleExtraA);
-                }
-                else if (mwqmSampleService.Query.Extra == "B")
-                {
-                    MWQMSampleExtraB mwqmSampleExtraB = new MWQMSampleExtraB();
-                    mwqmSampleExtraB = mwqmSampleService.GetMWQMSampleExtraBWithMWQMSampleID(MWQMSampleID);
-
-                    if (mwqmSampleExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(mwqmSampleExtraB);
-                }
                 else
                 {
                     MWQMSample mwqmSample = new MWQMSample();

@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 PolSourceObservationIssueService polSourceObservationIssueService = new PolSourceObservationIssueService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   polSourceObservationIssueService.Query = polSourceObservationIssueService.FillQuery(typeof(PolSourceObservationIssueExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (polSourceObservationIssueService.Query.HasErrors)
-                    {
-                        return Ok(new List<PolSourceObservationIssueExtraA>()
-                        {
-                            new PolSourceObservationIssueExtraA()
-                            {
-                                HasErrors = polSourceObservationIssueService.Query.HasErrors,
-                                ValidationResults = polSourceObservationIssueService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(polSourceObservationIssueService.GetPolSourceObservationIssueExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   polSourceObservationIssueService.Query = polSourceObservationIssueService.FillQuery(typeof(PolSourceObservationIssueExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (polSourceObservationIssueService.Query.HasErrors)
-                    {
-                        return Ok(new List<PolSourceObservationIssueExtraB>()
-                        {
-                            new PolSourceObservationIssueExtraB()
-                            {
-                                HasErrors = polSourceObservationIssueService.Query.HasErrors,
-                                ValidationResults = polSourceObservationIssueService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(polSourceObservationIssueService.GetPolSourceObservationIssueExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    polSourceObservationIssueService.Query = polSourceObservationIssueService.FillQuery(typeof(PolSourceObservationIssue), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 polSourceObservationIssueService.Query = polSourceObservationIssueService.FillQuery(typeof(PolSourceObservationIssue), lang, 0, 1, "", "", extra);
 
-                if (polSourceObservationIssueService.Query.Extra == "A")
-                {
-                    PolSourceObservationIssueExtraA polSourceObservationIssueExtraA = new PolSourceObservationIssueExtraA();
-                    polSourceObservationIssueExtraA = polSourceObservationIssueService.GetPolSourceObservationIssueExtraAWithPolSourceObservationIssueID(PolSourceObservationIssueID);
-
-                    if (polSourceObservationIssueExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(polSourceObservationIssueExtraA);
-                }
-                else if (polSourceObservationIssueService.Query.Extra == "B")
-                {
-                    PolSourceObservationIssueExtraB polSourceObservationIssueExtraB = new PolSourceObservationIssueExtraB();
-                    polSourceObservationIssueExtraB = polSourceObservationIssueService.GetPolSourceObservationIssueExtraBWithPolSourceObservationIssueID(PolSourceObservationIssueID);
-
-                    if (polSourceObservationIssueExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(polSourceObservationIssueExtraB);
-                }
                 else
                 {
                     PolSourceObservationIssue polSourceObservationIssue = new PolSourceObservationIssue();

@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 TVFileLanguageService tvFileLanguageService = new TVFileLanguageService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   tvFileLanguageService.Query = tvFileLanguageService.FillQuery(typeof(TVFileLanguageExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (tvFileLanguageService.Query.HasErrors)
-                    {
-                        return Ok(new List<TVFileLanguageExtraA>()
-                        {
-                            new TVFileLanguageExtraA()
-                            {
-                                HasErrors = tvFileLanguageService.Query.HasErrors,
-                                ValidationResults = tvFileLanguageService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(tvFileLanguageService.GetTVFileLanguageExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   tvFileLanguageService.Query = tvFileLanguageService.FillQuery(typeof(TVFileLanguageExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (tvFileLanguageService.Query.HasErrors)
-                    {
-                        return Ok(new List<TVFileLanguageExtraB>()
-                        {
-                            new TVFileLanguageExtraB()
-                            {
-                                HasErrors = tvFileLanguageService.Query.HasErrors,
-                                ValidationResults = tvFileLanguageService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(tvFileLanguageService.GetTVFileLanguageExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    tvFileLanguageService.Query = tvFileLanguageService.FillQuery(typeof(TVFileLanguage), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 tvFileLanguageService.Query = tvFileLanguageService.FillQuery(typeof(TVFileLanguage), lang, 0, 1, "", "", extra);
 
-                if (tvFileLanguageService.Query.Extra == "A")
-                {
-                    TVFileLanguageExtraA tvFileLanguageExtraA = new TVFileLanguageExtraA();
-                    tvFileLanguageExtraA = tvFileLanguageService.GetTVFileLanguageExtraAWithTVFileLanguageID(TVFileLanguageID);
-
-                    if (tvFileLanguageExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(tvFileLanguageExtraA);
-                }
-                else if (tvFileLanguageService.Query.Extra == "B")
-                {
-                    TVFileLanguageExtraB tvFileLanguageExtraB = new TVFileLanguageExtraB();
-                    tvFileLanguageExtraB = tvFileLanguageService.GetTVFileLanguageExtraBWithTVFileLanguageID(TVFileLanguageID);
-
-                    if (tvFileLanguageExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(tvFileLanguageExtraB);
-                }
                 else
                 {
                     TVFileLanguage tvFileLanguage = new TVFileLanguage();

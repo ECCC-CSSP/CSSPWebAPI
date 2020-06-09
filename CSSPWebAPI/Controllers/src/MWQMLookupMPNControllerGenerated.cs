@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 MWQMLookupMPNService mwqmLookupMPNService = new MWQMLookupMPNService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   mwqmLookupMPNService.Query = mwqmLookupMPNService.FillQuery(typeof(MWQMLookupMPNExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (mwqmLookupMPNService.Query.HasErrors)
-                    {
-                        return Ok(new List<MWQMLookupMPNExtraA>()
-                        {
-                            new MWQMLookupMPNExtraA()
-                            {
-                                HasErrors = mwqmLookupMPNService.Query.HasErrors,
-                                ValidationResults = mwqmLookupMPNService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(mwqmLookupMPNService.GetMWQMLookupMPNExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   mwqmLookupMPNService.Query = mwqmLookupMPNService.FillQuery(typeof(MWQMLookupMPNExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (mwqmLookupMPNService.Query.HasErrors)
-                    {
-                        return Ok(new List<MWQMLookupMPNExtraB>()
-                        {
-                            new MWQMLookupMPNExtraB()
-                            {
-                                HasErrors = mwqmLookupMPNService.Query.HasErrors,
-                                ValidationResults = mwqmLookupMPNService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(mwqmLookupMPNService.GetMWQMLookupMPNExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    mwqmLookupMPNService.Query = mwqmLookupMPNService.FillQuery(typeof(MWQMLookupMPN), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 mwqmLookupMPNService.Query = mwqmLookupMPNService.FillQuery(typeof(MWQMLookupMPN), lang, 0, 1, "", "", extra);
 
-                if (mwqmLookupMPNService.Query.Extra == "A")
-                {
-                    MWQMLookupMPNExtraA mwqmLookupMPNExtraA = new MWQMLookupMPNExtraA();
-                    mwqmLookupMPNExtraA = mwqmLookupMPNService.GetMWQMLookupMPNExtraAWithMWQMLookupMPNID(MWQMLookupMPNID);
-
-                    if (mwqmLookupMPNExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(mwqmLookupMPNExtraA);
-                }
-                else if (mwqmLookupMPNService.Query.Extra == "B")
-                {
-                    MWQMLookupMPNExtraB mwqmLookupMPNExtraB = new MWQMLookupMPNExtraB();
-                    mwqmLookupMPNExtraB = mwqmLookupMPNService.GetMWQMLookupMPNExtraBWithMWQMLookupMPNID(MWQMLookupMPNID);
-
-                    if (mwqmLookupMPNExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(mwqmLookupMPNExtraB);
-                }
                 else
                 {
                     MWQMLookupMPN mwqmLookupMPN = new MWQMLookupMPN();

@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 MWQMSampleLanguageService mwqmSampleLanguageService = new MWQMSampleLanguageService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   mwqmSampleLanguageService.Query = mwqmSampleLanguageService.FillQuery(typeof(MWQMSampleLanguageExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (mwqmSampleLanguageService.Query.HasErrors)
-                    {
-                        return Ok(new List<MWQMSampleLanguageExtraA>()
-                        {
-                            new MWQMSampleLanguageExtraA()
-                            {
-                                HasErrors = mwqmSampleLanguageService.Query.HasErrors,
-                                ValidationResults = mwqmSampleLanguageService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(mwqmSampleLanguageService.GetMWQMSampleLanguageExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   mwqmSampleLanguageService.Query = mwqmSampleLanguageService.FillQuery(typeof(MWQMSampleLanguageExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (mwqmSampleLanguageService.Query.HasErrors)
-                    {
-                        return Ok(new List<MWQMSampleLanguageExtraB>()
-                        {
-                            new MWQMSampleLanguageExtraB()
-                            {
-                                HasErrors = mwqmSampleLanguageService.Query.HasErrors,
-                                ValidationResults = mwqmSampleLanguageService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(mwqmSampleLanguageService.GetMWQMSampleLanguageExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    mwqmSampleLanguageService.Query = mwqmSampleLanguageService.FillQuery(typeof(MWQMSampleLanguage), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 mwqmSampleLanguageService.Query = mwqmSampleLanguageService.FillQuery(typeof(MWQMSampleLanguage), lang, 0, 1, "", "", extra);
 
-                if (mwqmSampleLanguageService.Query.Extra == "A")
-                {
-                    MWQMSampleLanguageExtraA mwqmSampleLanguageExtraA = new MWQMSampleLanguageExtraA();
-                    mwqmSampleLanguageExtraA = mwqmSampleLanguageService.GetMWQMSampleLanguageExtraAWithMWQMSampleLanguageID(MWQMSampleLanguageID);
-
-                    if (mwqmSampleLanguageExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(mwqmSampleLanguageExtraA);
-                }
-                else if (mwqmSampleLanguageService.Query.Extra == "B")
-                {
-                    MWQMSampleLanguageExtraB mwqmSampleLanguageExtraB = new MWQMSampleLanguageExtraB();
-                    mwqmSampleLanguageExtraB = mwqmSampleLanguageService.GetMWQMSampleLanguageExtraBWithMWQMSampleLanguageID(MWQMSampleLanguageID);
-
-                    if (mwqmSampleLanguageExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(mwqmSampleLanguageExtraB);
-                }
                 else
                 {
                     MWQMSampleLanguage mwqmSampleLanguage = new MWQMSampleLanguage();

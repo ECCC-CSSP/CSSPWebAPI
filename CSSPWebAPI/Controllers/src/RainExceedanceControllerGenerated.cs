@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 RainExceedanceService rainExceedanceService = new RainExceedanceService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   rainExceedanceService.Query = rainExceedanceService.FillQuery(typeof(RainExceedanceExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (rainExceedanceService.Query.HasErrors)
-                    {
-                        return Ok(new List<RainExceedanceExtraA>()
-                        {
-                            new RainExceedanceExtraA()
-                            {
-                                HasErrors = rainExceedanceService.Query.HasErrors,
-                                ValidationResults = rainExceedanceService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(rainExceedanceService.GetRainExceedanceExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   rainExceedanceService.Query = rainExceedanceService.FillQuery(typeof(RainExceedanceExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (rainExceedanceService.Query.HasErrors)
-                    {
-                        return Ok(new List<RainExceedanceExtraB>()
-                        {
-                            new RainExceedanceExtraB()
-                            {
-                                HasErrors = rainExceedanceService.Query.HasErrors,
-                                ValidationResults = rainExceedanceService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(rainExceedanceService.GetRainExceedanceExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    rainExceedanceService.Query = rainExceedanceService.FillQuery(typeof(RainExceedance), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 rainExceedanceService.Query = rainExceedanceService.FillQuery(typeof(RainExceedance), lang, 0, 1, "", "", extra);
 
-                if (rainExceedanceService.Query.Extra == "A")
-                {
-                    RainExceedanceExtraA rainExceedanceExtraA = new RainExceedanceExtraA();
-                    rainExceedanceExtraA = rainExceedanceService.GetRainExceedanceExtraAWithRainExceedanceID(RainExceedanceID);
-
-                    if (rainExceedanceExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(rainExceedanceExtraA);
-                }
-                else if (rainExceedanceService.Query.Extra == "B")
-                {
-                    RainExceedanceExtraB rainExceedanceExtraB = new RainExceedanceExtraB();
-                    rainExceedanceExtraB = rainExceedanceService.GetRainExceedanceExtraBWithRainExceedanceID(RainExceedanceID);
-
-                    if (rainExceedanceExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(rainExceedanceExtraB);
-                }
                 else
                 {
                     RainExceedance rainExceedance = new RainExceedance();

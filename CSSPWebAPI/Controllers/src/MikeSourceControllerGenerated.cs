@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 MikeSourceService mikeSourceService = new MikeSourceService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   mikeSourceService.Query = mikeSourceService.FillQuery(typeof(MikeSourceExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (mikeSourceService.Query.HasErrors)
-                    {
-                        return Ok(new List<MikeSourceExtraA>()
-                        {
-                            new MikeSourceExtraA()
-                            {
-                                HasErrors = mikeSourceService.Query.HasErrors,
-                                ValidationResults = mikeSourceService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(mikeSourceService.GetMikeSourceExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   mikeSourceService.Query = mikeSourceService.FillQuery(typeof(MikeSourceExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (mikeSourceService.Query.HasErrors)
-                    {
-                        return Ok(new List<MikeSourceExtraB>()
-                        {
-                            new MikeSourceExtraB()
-                            {
-                                HasErrors = mikeSourceService.Query.HasErrors,
-                                ValidationResults = mikeSourceService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(mikeSourceService.GetMikeSourceExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    mikeSourceService.Query = mikeSourceService.FillQuery(typeof(MikeSource), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 mikeSourceService.Query = mikeSourceService.FillQuery(typeof(MikeSource), lang, 0, 1, "", "", extra);
 
-                if (mikeSourceService.Query.Extra == "A")
-                {
-                    MikeSourceExtraA mikeSourceExtraA = new MikeSourceExtraA();
-                    mikeSourceExtraA = mikeSourceService.GetMikeSourceExtraAWithMikeSourceID(MikeSourceID);
-
-                    if (mikeSourceExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(mikeSourceExtraA);
-                }
-                else if (mikeSourceService.Query.Extra == "B")
-                {
-                    MikeSourceExtraB mikeSourceExtraB = new MikeSourceExtraB();
-                    mikeSourceExtraB = mikeSourceService.GetMikeSourceExtraBWithMikeSourceID(MikeSourceID);
-
-                    if (mikeSourceExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(mikeSourceExtraB);
-                }
                 else
                 {
                     MikeSource mikeSource = new MikeSource();

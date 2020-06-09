@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 ContactPreferenceService contactPreferenceService = new ContactPreferenceService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   contactPreferenceService.Query = contactPreferenceService.FillQuery(typeof(ContactPreferenceExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (contactPreferenceService.Query.HasErrors)
-                    {
-                        return Ok(new List<ContactPreferenceExtraA>()
-                        {
-                            new ContactPreferenceExtraA()
-                            {
-                                HasErrors = contactPreferenceService.Query.HasErrors,
-                                ValidationResults = contactPreferenceService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(contactPreferenceService.GetContactPreferenceExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   contactPreferenceService.Query = contactPreferenceService.FillQuery(typeof(ContactPreferenceExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (contactPreferenceService.Query.HasErrors)
-                    {
-                        return Ok(new List<ContactPreferenceExtraB>()
-                        {
-                            new ContactPreferenceExtraB()
-                            {
-                                HasErrors = contactPreferenceService.Query.HasErrors,
-                                ValidationResults = contactPreferenceService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(contactPreferenceService.GetContactPreferenceExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    contactPreferenceService.Query = contactPreferenceService.FillQuery(typeof(ContactPreference), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 contactPreferenceService.Query = contactPreferenceService.FillQuery(typeof(ContactPreference), lang, 0, 1, "", "", extra);
 
-                if (contactPreferenceService.Query.Extra == "A")
-                {
-                    ContactPreferenceExtraA contactPreferenceExtraA = new ContactPreferenceExtraA();
-                    contactPreferenceExtraA = contactPreferenceService.GetContactPreferenceExtraAWithContactPreferenceID(ContactPreferenceID);
-
-                    if (contactPreferenceExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(contactPreferenceExtraA);
-                }
-                else if (contactPreferenceService.Query.Extra == "B")
-                {
-                    ContactPreferenceExtraB contactPreferenceExtraB = new ContactPreferenceExtraB();
-                    contactPreferenceExtraB = contactPreferenceService.GetContactPreferenceExtraBWithContactPreferenceID(ContactPreferenceID);
-
-                    if (contactPreferenceExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(contactPreferenceExtraB);
-                }
                 else
                 {
                     ContactPreference contactPreference = new ContactPreference();

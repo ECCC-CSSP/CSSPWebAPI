@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 MWQMSubsectorService mwqmSubsectorService = new MWQMSubsectorService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   mwqmSubsectorService.Query = mwqmSubsectorService.FillQuery(typeof(MWQMSubsectorExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (mwqmSubsectorService.Query.HasErrors)
-                    {
-                        return Ok(new List<MWQMSubsectorExtraA>()
-                        {
-                            new MWQMSubsectorExtraA()
-                            {
-                                HasErrors = mwqmSubsectorService.Query.HasErrors,
-                                ValidationResults = mwqmSubsectorService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(mwqmSubsectorService.GetMWQMSubsectorExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   mwqmSubsectorService.Query = mwqmSubsectorService.FillQuery(typeof(MWQMSubsectorExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (mwqmSubsectorService.Query.HasErrors)
-                    {
-                        return Ok(new List<MWQMSubsectorExtraB>()
-                        {
-                            new MWQMSubsectorExtraB()
-                            {
-                                HasErrors = mwqmSubsectorService.Query.HasErrors,
-                                ValidationResults = mwqmSubsectorService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(mwqmSubsectorService.GetMWQMSubsectorExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    mwqmSubsectorService.Query = mwqmSubsectorService.FillQuery(typeof(MWQMSubsector), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 mwqmSubsectorService.Query = mwqmSubsectorService.FillQuery(typeof(MWQMSubsector), lang, 0, 1, "", "", extra);
 
-                if (mwqmSubsectorService.Query.Extra == "A")
-                {
-                    MWQMSubsectorExtraA mwqmSubsectorExtraA = new MWQMSubsectorExtraA();
-                    mwqmSubsectorExtraA = mwqmSubsectorService.GetMWQMSubsectorExtraAWithMWQMSubsectorID(MWQMSubsectorID);
-
-                    if (mwqmSubsectorExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(mwqmSubsectorExtraA);
-                }
-                else if (mwqmSubsectorService.Query.Extra == "B")
-                {
-                    MWQMSubsectorExtraB mwqmSubsectorExtraB = new MWQMSubsectorExtraB();
-                    mwqmSubsectorExtraB = mwqmSubsectorService.GetMWQMSubsectorExtraBWithMWQMSubsectorID(MWQMSubsectorID);
-
-                    if (mwqmSubsectorExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(mwqmSubsectorExtraB);
-                }
                 else
                 {
                     MWQMSubsector mwqmSubsector = new MWQMSubsector();

@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 MapInfoService mapInfoService = new MapInfoService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   mapInfoService.Query = mapInfoService.FillQuery(typeof(MapInfoExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (mapInfoService.Query.HasErrors)
-                    {
-                        return Ok(new List<MapInfoExtraA>()
-                        {
-                            new MapInfoExtraA()
-                            {
-                                HasErrors = mapInfoService.Query.HasErrors,
-                                ValidationResults = mapInfoService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(mapInfoService.GetMapInfoExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   mapInfoService.Query = mapInfoService.FillQuery(typeof(MapInfoExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (mapInfoService.Query.HasErrors)
-                    {
-                        return Ok(new List<MapInfoExtraB>()
-                        {
-                            new MapInfoExtraB()
-                            {
-                                HasErrors = mapInfoService.Query.HasErrors,
-                                ValidationResults = mapInfoService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(mapInfoService.GetMapInfoExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    mapInfoService.Query = mapInfoService.FillQuery(typeof(MapInfo), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 mapInfoService.Query = mapInfoService.FillQuery(typeof(MapInfo), lang, 0, 1, "", "", extra);
 
-                if (mapInfoService.Query.Extra == "A")
-                {
-                    MapInfoExtraA mapInfoExtraA = new MapInfoExtraA();
-                    mapInfoExtraA = mapInfoService.GetMapInfoExtraAWithMapInfoID(MapInfoID);
-
-                    if (mapInfoExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(mapInfoExtraA);
-                }
-                else if (mapInfoService.Query.Extra == "B")
-                {
-                    MapInfoExtraB mapInfoExtraB = new MapInfoExtraB();
-                    mapInfoExtraB = mapInfoService.GetMapInfoExtraBWithMapInfoID(MapInfoID);
-
-                    if (mapInfoExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(mapInfoExtraB);
-                }
                 else
                 {
                     MapInfo mapInfo = new MapInfo();

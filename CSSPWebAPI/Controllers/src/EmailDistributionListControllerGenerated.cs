@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 EmailDistributionListService emailDistributionListService = new EmailDistributionListService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   emailDistributionListService.Query = emailDistributionListService.FillQuery(typeof(EmailDistributionListExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (emailDistributionListService.Query.HasErrors)
-                    {
-                        return Ok(new List<EmailDistributionListExtraA>()
-                        {
-                            new EmailDistributionListExtraA()
-                            {
-                                HasErrors = emailDistributionListService.Query.HasErrors,
-                                ValidationResults = emailDistributionListService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(emailDistributionListService.GetEmailDistributionListExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   emailDistributionListService.Query = emailDistributionListService.FillQuery(typeof(EmailDistributionListExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (emailDistributionListService.Query.HasErrors)
-                    {
-                        return Ok(new List<EmailDistributionListExtraB>()
-                        {
-                            new EmailDistributionListExtraB()
-                            {
-                                HasErrors = emailDistributionListService.Query.HasErrors,
-                                ValidationResults = emailDistributionListService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(emailDistributionListService.GetEmailDistributionListExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    emailDistributionListService.Query = emailDistributionListService.FillQuery(typeof(EmailDistributionList), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 emailDistributionListService.Query = emailDistributionListService.FillQuery(typeof(EmailDistributionList), lang, 0, 1, "", "", extra);
 
-                if (emailDistributionListService.Query.Extra == "A")
-                {
-                    EmailDistributionListExtraA emailDistributionListExtraA = new EmailDistributionListExtraA();
-                    emailDistributionListExtraA = emailDistributionListService.GetEmailDistributionListExtraAWithEmailDistributionListID(EmailDistributionListID);
-
-                    if (emailDistributionListExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(emailDistributionListExtraA);
-                }
-                else if (emailDistributionListService.Query.Extra == "B")
-                {
-                    EmailDistributionListExtraB emailDistributionListExtraB = new EmailDistributionListExtraB();
-                    emailDistributionListExtraB = emailDistributionListService.GetEmailDistributionListExtraBWithEmailDistributionListID(EmailDistributionListID);
-
-                    if (emailDistributionListExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(emailDistributionListExtraB);
-                }
                 else
                 {
                     EmailDistributionList emailDistributionList = new EmailDistributionList();

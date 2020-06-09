@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 DrogueRunPositionService drogueRunPositionService = new DrogueRunPositionService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   drogueRunPositionService.Query = drogueRunPositionService.FillQuery(typeof(DrogueRunPositionExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (drogueRunPositionService.Query.HasErrors)
-                    {
-                        return Ok(new List<DrogueRunPositionExtraA>()
-                        {
-                            new DrogueRunPositionExtraA()
-                            {
-                                HasErrors = drogueRunPositionService.Query.HasErrors,
-                                ValidationResults = drogueRunPositionService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(drogueRunPositionService.GetDrogueRunPositionExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   drogueRunPositionService.Query = drogueRunPositionService.FillQuery(typeof(DrogueRunPositionExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (drogueRunPositionService.Query.HasErrors)
-                    {
-                        return Ok(new List<DrogueRunPositionExtraB>()
-                        {
-                            new DrogueRunPositionExtraB()
-                            {
-                                HasErrors = drogueRunPositionService.Query.HasErrors,
-                                ValidationResults = drogueRunPositionService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(drogueRunPositionService.GetDrogueRunPositionExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    drogueRunPositionService.Query = drogueRunPositionService.FillQuery(typeof(DrogueRunPosition), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 drogueRunPositionService.Query = drogueRunPositionService.FillQuery(typeof(DrogueRunPosition), lang, 0, 1, "", "", extra);
 
-                if (drogueRunPositionService.Query.Extra == "A")
-                {
-                    DrogueRunPositionExtraA drogueRunPositionExtraA = new DrogueRunPositionExtraA();
-                    drogueRunPositionExtraA = drogueRunPositionService.GetDrogueRunPositionExtraAWithDrogueRunPositionID(DrogueRunPositionID);
-
-                    if (drogueRunPositionExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(drogueRunPositionExtraA);
-                }
-                else if (drogueRunPositionService.Query.Extra == "B")
-                {
-                    DrogueRunPositionExtraB drogueRunPositionExtraB = new DrogueRunPositionExtraB();
-                    drogueRunPositionExtraB = drogueRunPositionService.GetDrogueRunPositionExtraBWithDrogueRunPositionID(DrogueRunPositionID);
-
-                    if (drogueRunPositionExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(drogueRunPositionExtraB);
-                }
                 else
                 {
                     DrogueRunPosition drogueRunPosition = new DrogueRunPosition();

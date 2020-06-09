@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 PolSourceObservationService polSourceObservationService = new PolSourceObservationService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   polSourceObservationService.Query = polSourceObservationService.FillQuery(typeof(PolSourceObservationExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (polSourceObservationService.Query.HasErrors)
-                    {
-                        return Ok(new List<PolSourceObservationExtraA>()
-                        {
-                            new PolSourceObservationExtraA()
-                            {
-                                HasErrors = polSourceObservationService.Query.HasErrors,
-                                ValidationResults = polSourceObservationService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(polSourceObservationService.GetPolSourceObservationExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   polSourceObservationService.Query = polSourceObservationService.FillQuery(typeof(PolSourceObservationExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (polSourceObservationService.Query.HasErrors)
-                    {
-                        return Ok(new List<PolSourceObservationExtraB>()
-                        {
-                            new PolSourceObservationExtraB()
-                            {
-                                HasErrors = polSourceObservationService.Query.HasErrors,
-                                ValidationResults = polSourceObservationService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(polSourceObservationService.GetPolSourceObservationExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    polSourceObservationService.Query = polSourceObservationService.FillQuery(typeof(PolSourceObservation), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 polSourceObservationService.Query = polSourceObservationService.FillQuery(typeof(PolSourceObservation), lang, 0, 1, "", "", extra);
 
-                if (polSourceObservationService.Query.Extra == "A")
-                {
-                    PolSourceObservationExtraA polSourceObservationExtraA = new PolSourceObservationExtraA();
-                    polSourceObservationExtraA = polSourceObservationService.GetPolSourceObservationExtraAWithPolSourceObservationID(PolSourceObservationID);
-
-                    if (polSourceObservationExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(polSourceObservationExtraA);
-                }
-                else if (polSourceObservationService.Query.Extra == "B")
-                {
-                    PolSourceObservationExtraB polSourceObservationExtraB = new PolSourceObservationExtraB();
-                    polSourceObservationExtraB = polSourceObservationService.GetPolSourceObservationExtraBWithPolSourceObservationID(PolSourceObservationID);
-
-                    if (polSourceObservationExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(polSourceObservationExtraB);
-                }
                 else
                 {
                     PolSourceObservation polSourceObservation = new PolSourceObservation();

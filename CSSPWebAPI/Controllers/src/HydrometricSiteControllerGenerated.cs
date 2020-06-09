@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 HydrometricSiteService hydrometricSiteService = new HydrometricSiteService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   hydrometricSiteService.Query = hydrometricSiteService.FillQuery(typeof(HydrometricSiteExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (hydrometricSiteService.Query.HasErrors)
-                    {
-                        return Ok(new List<HydrometricSiteExtraA>()
-                        {
-                            new HydrometricSiteExtraA()
-                            {
-                                HasErrors = hydrometricSiteService.Query.HasErrors,
-                                ValidationResults = hydrometricSiteService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(hydrometricSiteService.GetHydrometricSiteExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   hydrometricSiteService.Query = hydrometricSiteService.FillQuery(typeof(HydrometricSiteExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (hydrometricSiteService.Query.HasErrors)
-                    {
-                        return Ok(new List<HydrometricSiteExtraB>()
-                        {
-                            new HydrometricSiteExtraB()
-                            {
-                                HasErrors = hydrometricSiteService.Query.HasErrors,
-                                ValidationResults = hydrometricSiteService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(hydrometricSiteService.GetHydrometricSiteExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    hydrometricSiteService.Query = hydrometricSiteService.FillQuery(typeof(HydrometricSite), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 hydrometricSiteService.Query = hydrometricSiteService.FillQuery(typeof(HydrometricSite), lang, 0, 1, "", "", extra);
 
-                if (hydrometricSiteService.Query.Extra == "A")
-                {
-                    HydrometricSiteExtraA hydrometricSiteExtraA = new HydrometricSiteExtraA();
-                    hydrometricSiteExtraA = hydrometricSiteService.GetHydrometricSiteExtraAWithHydrometricSiteID(HydrometricSiteID);
-
-                    if (hydrometricSiteExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(hydrometricSiteExtraA);
-                }
-                else if (hydrometricSiteService.Query.Extra == "B")
-                {
-                    HydrometricSiteExtraB hydrometricSiteExtraB = new HydrometricSiteExtraB();
-                    hydrometricSiteExtraB = hydrometricSiteService.GetHydrometricSiteExtraBWithHydrometricSiteID(HydrometricSiteID);
-
-                    if (hydrometricSiteExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(hydrometricSiteExtraB);
-                }
                 else
                 {
                     HydrometricSite hydrometricSite = new HydrometricSite();

@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 TelService telService = new TelService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   telService.Query = telService.FillQuery(typeof(TelExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (telService.Query.HasErrors)
-                    {
-                        return Ok(new List<TelExtraA>()
-                        {
-                            new TelExtraA()
-                            {
-                                HasErrors = telService.Query.HasErrors,
-                                ValidationResults = telService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(telService.GetTelExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   telService.Query = telService.FillQuery(typeof(TelExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (telService.Query.HasErrors)
-                    {
-                        return Ok(new List<TelExtraB>()
-                        {
-                            new TelExtraB()
-                            {
-                                HasErrors = telService.Query.HasErrors,
-                                ValidationResults = telService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(telService.GetTelExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    telService.Query = telService.FillQuery(typeof(Tel), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 telService.Query = telService.FillQuery(typeof(Tel), lang, 0, 1, "", "", extra);
 
-                if (telService.Query.Extra == "A")
-                {
-                    TelExtraA telExtraA = new TelExtraA();
-                    telExtraA = telService.GetTelExtraAWithTelID(TelID);
-
-                    if (telExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(telExtraA);
-                }
-                else if (telService.Query.Extra == "B")
-                {
-                    TelExtraB telExtraB = new TelExtraB();
-                    telExtraB = telService.GetTelExtraBWithTelID(TelID);
-
-                    if (telExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(telExtraB);
-                }
                 else
                 {
                     Tel tel = new Tel();

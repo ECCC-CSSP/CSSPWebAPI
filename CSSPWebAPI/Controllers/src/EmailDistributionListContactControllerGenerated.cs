@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 EmailDistributionListContactService emailDistributionListContactService = new EmailDistributionListContactService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   emailDistributionListContactService.Query = emailDistributionListContactService.FillQuery(typeof(EmailDistributionListContactExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (emailDistributionListContactService.Query.HasErrors)
-                    {
-                        return Ok(new List<EmailDistributionListContactExtraA>()
-                        {
-                            new EmailDistributionListContactExtraA()
-                            {
-                                HasErrors = emailDistributionListContactService.Query.HasErrors,
-                                ValidationResults = emailDistributionListContactService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(emailDistributionListContactService.GetEmailDistributionListContactExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   emailDistributionListContactService.Query = emailDistributionListContactService.FillQuery(typeof(EmailDistributionListContactExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (emailDistributionListContactService.Query.HasErrors)
-                    {
-                        return Ok(new List<EmailDistributionListContactExtraB>()
-                        {
-                            new EmailDistributionListContactExtraB()
-                            {
-                                HasErrors = emailDistributionListContactService.Query.HasErrors,
-                                ValidationResults = emailDistributionListContactService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(emailDistributionListContactService.GetEmailDistributionListContactExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    emailDistributionListContactService.Query = emailDistributionListContactService.FillQuery(typeof(EmailDistributionListContact), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 emailDistributionListContactService.Query = emailDistributionListContactService.FillQuery(typeof(EmailDistributionListContact), lang, 0, 1, "", "", extra);
 
-                if (emailDistributionListContactService.Query.Extra == "A")
-                {
-                    EmailDistributionListContactExtraA emailDistributionListContactExtraA = new EmailDistributionListContactExtraA();
-                    emailDistributionListContactExtraA = emailDistributionListContactService.GetEmailDistributionListContactExtraAWithEmailDistributionListContactID(EmailDistributionListContactID);
-
-                    if (emailDistributionListContactExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(emailDistributionListContactExtraA);
-                }
-                else if (emailDistributionListContactService.Query.Extra == "B")
-                {
-                    EmailDistributionListContactExtraB emailDistributionListContactExtraB = new EmailDistributionListContactExtraB();
-                    emailDistributionListContactExtraB = emailDistributionListContactService.GetEmailDistributionListContactExtraBWithEmailDistributionListContactID(EmailDistributionListContactID);
-
-                    if (emailDistributionListContactExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(emailDistributionListContactExtraB);
-                }
                 else
                 {
                     EmailDistributionListContact emailDistributionListContact = new EmailDistributionListContact();

@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 DocTemplateService docTemplateService = new DocTemplateService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   docTemplateService.Query = docTemplateService.FillQuery(typeof(DocTemplateExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (docTemplateService.Query.HasErrors)
-                    {
-                        return Ok(new List<DocTemplateExtraA>()
-                        {
-                            new DocTemplateExtraA()
-                            {
-                                HasErrors = docTemplateService.Query.HasErrors,
-                                ValidationResults = docTemplateService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(docTemplateService.GetDocTemplateExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   docTemplateService.Query = docTemplateService.FillQuery(typeof(DocTemplateExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (docTemplateService.Query.HasErrors)
-                    {
-                        return Ok(new List<DocTemplateExtraB>()
-                        {
-                            new DocTemplateExtraB()
-                            {
-                                HasErrors = docTemplateService.Query.HasErrors,
-                                ValidationResults = docTemplateService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(docTemplateService.GetDocTemplateExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    docTemplateService.Query = docTemplateService.FillQuery(typeof(DocTemplate), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 docTemplateService.Query = docTemplateService.FillQuery(typeof(DocTemplate), lang, 0, 1, "", "", extra);
 
-                if (docTemplateService.Query.Extra == "A")
-                {
-                    DocTemplateExtraA docTemplateExtraA = new DocTemplateExtraA();
-                    docTemplateExtraA = docTemplateService.GetDocTemplateExtraAWithDocTemplateID(DocTemplateID);
-
-                    if (docTemplateExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(docTemplateExtraA);
-                }
-                else if (docTemplateService.Query.Extra == "B")
-                {
-                    DocTemplateExtraB docTemplateExtraB = new DocTemplateExtraB();
-                    docTemplateExtraB = docTemplateService.GetDocTemplateExtraBWithDocTemplateID(DocTemplateID);
-
-                    if (docTemplateExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(docTemplateExtraB);
-                }
                 else
                 {
                     DocTemplate docTemplate = new DocTemplate();

@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 LogService logService = new LogService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   logService.Query = logService.FillQuery(typeof(LogExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (logService.Query.HasErrors)
-                    {
-                        return Ok(new List<LogExtraA>()
-                        {
-                            new LogExtraA()
-                            {
-                                HasErrors = logService.Query.HasErrors,
-                                ValidationResults = logService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(logService.GetLogExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   logService.Query = logService.FillQuery(typeof(LogExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (logService.Query.HasErrors)
-                    {
-                        return Ok(new List<LogExtraB>()
-                        {
-                            new LogExtraB()
-                            {
-                                HasErrors = logService.Query.HasErrors,
-                                ValidationResults = logService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(logService.GetLogExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    logService.Query = logService.FillQuery(typeof(Log), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 logService.Query = logService.FillQuery(typeof(Log), lang, 0, 1, "", "", extra);
 
-                if (logService.Query.Extra == "A")
-                {
-                    LogExtraA logExtraA = new LogExtraA();
-                    logExtraA = logService.GetLogExtraAWithLogID(LogID);
-
-                    if (logExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(logExtraA);
-                }
-                else if (logService.Query.Extra == "B")
-                {
-                    LogExtraB logExtraB = new LogExtraB();
-                    logExtraB = logService.GetLogExtraBWithLogID(LogID);
-
-                    if (logExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(logExtraB);
-                }
                 else
                 {
                     Log log = new Log();

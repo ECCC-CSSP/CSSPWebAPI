@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 SamplingPlanSubsectorSiteService samplingPlanSubsectorSiteService = new SamplingPlanSubsectorSiteService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   samplingPlanSubsectorSiteService.Query = samplingPlanSubsectorSiteService.FillQuery(typeof(SamplingPlanSubsectorSiteExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (samplingPlanSubsectorSiteService.Query.HasErrors)
-                    {
-                        return Ok(new List<SamplingPlanSubsectorSiteExtraA>()
-                        {
-                            new SamplingPlanSubsectorSiteExtraA()
-                            {
-                                HasErrors = samplingPlanSubsectorSiteService.Query.HasErrors,
-                                ValidationResults = samplingPlanSubsectorSiteService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   samplingPlanSubsectorSiteService.Query = samplingPlanSubsectorSiteService.FillQuery(typeof(SamplingPlanSubsectorSiteExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (samplingPlanSubsectorSiteService.Query.HasErrors)
-                    {
-                        return Ok(new List<SamplingPlanSubsectorSiteExtraB>()
-                        {
-                            new SamplingPlanSubsectorSiteExtraB()
-                            {
-                                HasErrors = samplingPlanSubsectorSiteService.Query.HasErrors,
-                                ValidationResults = samplingPlanSubsectorSiteService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    samplingPlanSubsectorSiteService.Query = samplingPlanSubsectorSiteService.FillQuery(typeof(SamplingPlanSubsectorSite), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 samplingPlanSubsectorSiteService.Query = samplingPlanSubsectorSiteService.FillQuery(typeof(SamplingPlanSubsectorSite), lang, 0, 1, "", "", extra);
 
-                if (samplingPlanSubsectorSiteService.Query.Extra == "A")
-                {
-                    SamplingPlanSubsectorSiteExtraA samplingPlanSubsectorSiteExtraA = new SamplingPlanSubsectorSiteExtraA();
-                    samplingPlanSubsectorSiteExtraA = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteExtraAWithSamplingPlanSubsectorSiteID(SamplingPlanSubsectorSiteID);
-
-                    if (samplingPlanSubsectorSiteExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(samplingPlanSubsectorSiteExtraA);
-                }
-                else if (samplingPlanSubsectorSiteService.Query.Extra == "B")
-                {
-                    SamplingPlanSubsectorSiteExtraB samplingPlanSubsectorSiteExtraB = new SamplingPlanSubsectorSiteExtraB();
-                    samplingPlanSubsectorSiteExtraB = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteExtraBWithSamplingPlanSubsectorSiteID(SamplingPlanSubsectorSiteID);
-
-                    if (samplingPlanSubsectorSiteExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(samplingPlanSubsectorSiteExtraB);
-                }
                 else
                 {
                     SamplingPlanSubsectorSite samplingPlanSubsectorSite = new SamplingPlanSubsectorSite();

@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 AppTaskLanguageService appTaskLanguageService = new AppTaskLanguageService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   appTaskLanguageService.Query = appTaskLanguageService.FillQuery(typeof(AppTaskLanguageExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (appTaskLanguageService.Query.HasErrors)
-                    {
-                        return Ok(new List<AppTaskLanguageExtraA>()
-                        {
-                            new AppTaskLanguageExtraA()
-                            {
-                                HasErrors = appTaskLanguageService.Query.HasErrors,
-                                ValidationResults = appTaskLanguageService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(appTaskLanguageService.GetAppTaskLanguageExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   appTaskLanguageService.Query = appTaskLanguageService.FillQuery(typeof(AppTaskLanguageExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (appTaskLanguageService.Query.HasErrors)
-                    {
-                        return Ok(new List<AppTaskLanguageExtraB>()
-                        {
-                            new AppTaskLanguageExtraB()
-                            {
-                                HasErrors = appTaskLanguageService.Query.HasErrors,
-                                ValidationResults = appTaskLanguageService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(appTaskLanguageService.GetAppTaskLanguageExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    appTaskLanguageService.Query = appTaskLanguageService.FillQuery(typeof(AppTaskLanguage), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 appTaskLanguageService.Query = appTaskLanguageService.FillQuery(typeof(AppTaskLanguage), lang, 0, 1, "", "", extra);
 
-                if (appTaskLanguageService.Query.Extra == "A")
-                {
-                    AppTaskLanguageExtraA appTaskLanguageExtraA = new AppTaskLanguageExtraA();
-                    appTaskLanguageExtraA = appTaskLanguageService.GetAppTaskLanguageExtraAWithAppTaskLanguageID(AppTaskLanguageID);
-
-                    if (appTaskLanguageExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(appTaskLanguageExtraA);
-                }
-                else if (appTaskLanguageService.Query.Extra == "B")
-                {
-                    AppTaskLanguageExtraB appTaskLanguageExtraB = new AppTaskLanguageExtraB();
-                    appTaskLanguageExtraB = appTaskLanguageService.GetAppTaskLanguageExtraBWithAppTaskLanguageID(AppTaskLanguageID);
-
-                    if (appTaskLanguageExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(appTaskLanguageExtraB);
-                }
                 else
                 {
                     AppTaskLanguage appTaskLanguage = new AppTaskLanguage();

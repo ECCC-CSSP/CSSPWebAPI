@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 SamplingPlanEmailService samplingPlanEmailService = new SamplingPlanEmailService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   samplingPlanEmailService.Query = samplingPlanEmailService.FillQuery(typeof(SamplingPlanEmailExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (samplingPlanEmailService.Query.HasErrors)
-                    {
-                        return Ok(new List<SamplingPlanEmailExtraA>()
-                        {
-                            new SamplingPlanEmailExtraA()
-                            {
-                                HasErrors = samplingPlanEmailService.Query.HasErrors,
-                                ValidationResults = samplingPlanEmailService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(samplingPlanEmailService.GetSamplingPlanEmailExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   samplingPlanEmailService.Query = samplingPlanEmailService.FillQuery(typeof(SamplingPlanEmailExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (samplingPlanEmailService.Query.HasErrors)
-                    {
-                        return Ok(new List<SamplingPlanEmailExtraB>()
-                        {
-                            new SamplingPlanEmailExtraB()
-                            {
-                                HasErrors = samplingPlanEmailService.Query.HasErrors,
-                                ValidationResults = samplingPlanEmailService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(samplingPlanEmailService.GetSamplingPlanEmailExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    samplingPlanEmailService.Query = samplingPlanEmailService.FillQuery(typeof(SamplingPlanEmail), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 samplingPlanEmailService.Query = samplingPlanEmailService.FillQuery(typeof(SamplingPlanEmail), lang, 0, 1, "", "", extra);
 
-                if (samplingPlanEmailService.Query.Extra == "A")
-                {
-                    SamplingPlanEmailExtraA samplingPlanEmailExtraA = new SamplingPlanEmailExtraA();
-                    samplingPlanEmailExtraA = samplingPlanEmailService.GetSamplingPlanEmailExtraAWithSamplingPlanEmailID(SamplingPlanEmailID);
-
-                    if (samplingPlanEmailExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(samplingPlanEmailExtraA);
-                }
-                else if (samplingPlanEmailService.Query.Extra == "B")
-                {
-                    SamplingPlanEmailExtraB samplingPlanEmailExtraB = new SamplingPlanEmailExtraB();
-                    samplingPlanEmailExtraB = samplingPlanEmailService.GetSamplingPlanEmailExtraBWithSamplingPlanEmailID(SamplingPlanEmailID);
-
-                    if (samplingPlanEmailExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(samplingPlanEmailExtraB);
-                }
                 else
                 {
                     SamplingPlanEmail samplingPlanEmail = new SamplingPlanEmail();

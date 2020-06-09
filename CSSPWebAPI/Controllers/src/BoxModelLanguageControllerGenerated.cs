@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 BoxModelLanguageService boxModelLanguageService = new BoxModelLanguageService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   boxModelLanguageService.Query = boxModelLanguageService.FillQuery(typeof(BoxModelLanguageExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (boxModelLanguageService.Query.HasErrors)
-                    {
-                        return Ok(new List<BoxModelLanguageExtraA>()
-                        {
-                            new BoxModelLanguageExtraA()
-                            {
-                                HasErrors = boxModelLanguageService.Query.HasErrors,
-                                ValidationResults = boxModelLanguageService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(boxModelLanguageService.GetBoxModelLanguageExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   boxModelLanguageService.Query = boxModelLanguageService.FillQuery(typeof(BoxModelLanguageExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (boxModelLanguageService.Query.HasErrors)
-                    {
-                        return Ok(new List<BoxModelLanguageExtraB>()
-                        {
-                            new BoxModelLanguageExtraB()
-                            {
-                                HasErrors = boxModelLanguageService.Query.HasErrors,
-                                ValidationResults = boxModelLanguageService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(boxModelLanguageService.GetBoxModelLanguageExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    boxModelLanguageService.Query = boxModelLanguageService.FillQuery(typeof(BoxModelLanguage), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 boxModelLanguageService.Query = boxModelLanguageService.FillQuery(typeof(BoxModelLanguage), lang, 0, 1, "", "", extra);
 
-                if (boxModelLanguageService.Query.Extra == "A")
-                {
-                    BoxModelLanguageExtraA boxModelLanguageExtraA = new BoxModelLanguageExtraA();
-                    boxModelLanguageExtraA = boxModelLanguageService.GetBoxModelLanguageExtraAWithBoxModelLanguageID(BoxModelLanguageID);
-
-                    if (boxModelLanguageExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(boxModelLanguageExtraA);
-                }
-                else if (boxModelLanguageService.Query.Extra == "B")
-                {
-                    BoxModelLanguageExtraB boxModelLanguageExtraB = new BoxModelLanguageExtraB();
-                    boxModelLanguageExtraB = boxModelLanguageService.GetBoxModelLanguageExtraBWithBoxModelLanguageID(BoxModelLanguageID);
-
-                    if (boxModelLanguageExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(boxModelLanguageExtraB);
-                }
                 else
                 {
                     BoxModelLanguage boxModelLanguage = new BoxModelLanguage();

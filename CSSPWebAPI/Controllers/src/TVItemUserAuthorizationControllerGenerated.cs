@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 TVItemUserAuthorizationService tvItemUserAuthorizationService = new TVItemUserAuthorizationService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   tvItemUserAuthorizationService.Query = tvItemUserAuthorizationService.FillQuery(typeof(TVItemUserAuthorizationExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (tvItemUserAuthorizationService.Query.HasErrors)
-                    {
-                        return Ok(new List<TVItemUserAuthorizationExtraA>()
-                        {
-                            new TVItemUserAuthorizationExtraA()
-                            {
-                                HasErrors = tvItemUserAuthorizationService.Query.HasErrors,
-                                ValidationResults = tvItemUserAuthorizationService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(tvItemUserAuthorizationService.GetTVItemUserAuthorizationExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   tvItemUserAuthorizationService.Query = tvItemUserAuthorizationService.FillQuery(typeof(TVItemUserAuthorizationExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (tvItemUserAuthorizationService.Query.HasErrors)
-                    {
-                        return Ok(new List<TVItemUserAuthorizationExtraB>()
-                        {
-                            new TVItemUserAuthorizationExtraB()
-                            {
-                                HasErrors = tvItemUserAuthorizationService.Query.HasErrors,
-                                ValidationResults = tvItemUserAuthorizationService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(tvItemUserAuthorizationService.GetTVItemUserAuthorizationExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    tvItemUserAuthorizationService.Query = tvItemUserAuthorizationService.FillQuery(typeof(TVItemUserAuthorization), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 tvItemUserAuthorizationService.Query = tvItemUserAuthorizationService.FillQuery(typeof(TVItemUserAuthorization), lang, 0, 1, "", "", extra);
 
-                if (tvItemUserAuthorizationService.Query.Extra == "A")
-                {
-                    TVItemUserAuthorizationExtraA tvItemUserAuthorizationExtraA = new TVItemUserAuthorizationExtraA();
-                    tvItemUserAuthorizationExtraA = tvItemUserAuthorizationService.GetTVItemUserAuthorizationExtraAWithTVItemUserAuthorizationID(TVItemUserAuthorizationID);
-
-                    if (tvItemUserAuthorizationExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(tvItemUserAuthorizationExtraA);
-                }
-                else if (tvItemUserAuthorizationService.Query.Extra == "B")
-                {
-                    TVItemUserAuthorizationExtraB tvItemUserAuthorizationExtraB = new TVItemUserAuthorizationExtraB();
-                    tvItemUserAuthorizationExtraB = tvItemUserAuthorizationService.GetTVItemUserAuthorizationExtraBWithTVItemUserAuthorizationID(TVItemUserAuthorizationID);
-
-                    if (tvItemUserAuthorizationExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(tvItemUserAuthorizationExtraB);
-                }
                 else
                 {
                     TVItemUserAuthorization tvItemUserAuthorization = new TVItemUserAuthorization();

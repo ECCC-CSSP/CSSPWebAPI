@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 MWQMRunService mwqmRunService = new MWQMRunService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   mwqmRunService.Query = mwqmRunService.FillQuery(typeof(MWQMRunExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (mwqmRunService.Query.HasErrors)
-                    {
-                        return Ok(new List<MWQMRunExtraA>()
-                        {
-                            new MWQMRunExtraA()
-                            {
-                                HasErrors = mwqmRunService.Query.HasErrors,
-                                ValidationResults = mwqmRunService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(mwqmRunService.GetMWQMRunExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   mwqmRunService.Query = mwqmRunService.FillQuery(typeof(MWQMRunExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (mwqmRunService.Query.HasErrors)
-                    {
-                        return Ok(new List<MWQMRunExtraB>()
-                        {
-                            new MWQMRunExtraB()
-                            {
-                                HasErrors = mwqmRunService.Query.HasErrors,
-                                ValidationResults = mwqmRunService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(mwqmRunService.GetMWQMRunExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    mwqmRunService.Query = mwqmRunService.FillQuery(typeof(MWQMRun), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 mwqmRunService.Query = mwqmRunService.FillQuery(typeof(MWQMRun), lang, 0, 1, "", "", extra);
 
-                if (mwqmRunService.Query.Extra == "A")
-                {
-                    MWQMRunExtraA mwqmRunExtraA = new MWQMRunExtraA();
-                    mwqmRunExtraA = mwqmRunService.GetMWQMRunExtraAWithMWQMRunID(MWQMRunID);
-
-                    if (mwqmRunExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(mwqmRunExtraA);
-                }
-                else if (mwqmRunService.Query.Extra == "B")
-                {
-                    MWQMRunExtraB mwqmRunExtraB = new MWQMRunExtraB();
-                    mwqmRunExtraB = mwqmRunService.GetMWQMRunExtraBWithMWQMRunID(MWQMRunID);
-
-                    if (mwqmRunExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(mwqmRunExtraB);
-                }
                 else
                 {
                     MWQMRun mwqmRun = new MWQMRun();

@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 AppTaskService appTaskService = new AppTaskService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   appTaskService.Query = appTaskService.FillQuery(typeof(AppTaskExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (appTaskService.Query.HasErrors)
-                    {
-                        return Ok(new List<AppTaskExtraA>()
-                        {
-                            new AppTaskExtraA()
-                            {
-                                HasErrors = appTaskService.Query.HasErrors,
-                                ValidationResults = appTaskService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(appTaskService.GetAppTaskExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   appTaskService.Query = appTaskService.FillQuery(typeof(AppTaskExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (appTaskService.Query.HasErrors)
-                    {
-                        return Ok(new List<AppTaskExtraB>()
-                        {
-                            new AppTaskExtraB()
-                            {
-                                HasErrors = appTaskService.Query.HasErrors,
-                                ValidationResults = appTaskService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(appTaskService.GetAppTaskExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    appTaskService.Query = appTaskService.FillQuery(typeof(AppTask), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 appTaskService.Query = appTaskService.FillQuery(typeof(AppTask), lang, 0, 1, "", "", extra);
 
-                if (appTaskService.Query.Extra == "A")
-                {
-                    AppTaskExtraA appTaskExtraA = new AppTaskExtraA();
-                    appTaskExtraA = appTaskService.GetAppTaskExtraAWithAppTaskID(AppTaskID);
-
-                    if (appTaskExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(appTaskExtraA);
-                }
-                else if (appTaskService.Query.Extra == "B")
-                {
-                    AppTaskExtraB appTaskExtraB = new AppTaskExtraB();
-                    appTaskExtraB = appTaskService.GetAppTaskExtraBWithAppTaskID(AppTaskID);
-
-                    if (appTaskExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(appTaskExtraB);
-                }
                 else
                 {
                     AppTask appTask = new AppTask();

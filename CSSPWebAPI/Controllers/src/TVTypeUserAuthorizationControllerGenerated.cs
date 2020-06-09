@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 TVTypeUserAuthorizationService tvTypeUserAuthorizationService = new TVTypeUserAuthorizationService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   tvTypeUserAuthorizationService.Query = tvTypeUserAuthorizationService.FillQuery(typeof(TVTypeUserAuthorizationExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (tvTypeUserAuthorizationService.Query.HasErrors)
-                    {
-                        return Ok(new List<TVTypeUserAuthorizationExtraA>()
-                        {
-                            new TVTypeUserAuthorizationExtraA()
-                            {
-                                HasErrors = tvTypeUserAuthorizationService.Query.HasErrors,
-                                ValidationResults = tvTypeUserAuthorizationService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   tvTypeUserAuthorizationService.Query = tvTypeUserAuthorizationService.FillQuery(typeof(TVTypeUserAuthorizationExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (tvTypeUserAuthorizationService.Query.HasErrors)
-                    {
-                        return Ok(new List<TVTypeUserAuthorizationExtraB>()
-                        {
-                            new TVTypeUserAuthorizationExtraB()
-                            {
-                                HasErrors = tvTypeUserAuthorizationService.Query.HasErrors,
-                                ValidationResults = tvTypeUserAuthorizationService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    tvTypeUserAuthorizationService.Query = tvTypeUserAuthorizationService.FillQuery(typeof(TVTypeUserAuthorization), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 tvTypeUserAuthorizationService.Query = tvTypeUserAuthorizationService.FillQuery(typeof(TVTypeUserAuthorization), lang, 0, 1, "", "", extra);
 
-                if (tvTypeUserAuthorizationService.Query.Extra == "A")
-                {
-                    TVTypeUserAuthorizationExtraA tvTypeUserAuthorizationExtraA = new TVTypeUserAuthorizationExtraA();
-                    tvTypeUserAuthorizationExtraA = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationExtraAWithTVTypeUserAuthorizationID(TVTypeUserAuthorizationID);
-
-                    if (tvTypeUserAuthorizationExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(tvTypeUserAuthorizationExtraA);
-                }
-                else if (tvTypeUserAuthorizationService.Query.Extra == "B")
-                {
-                    TVTypeUserAuthorizationExtraB tvTypeUserAuthorizationExtraB = new TVTypeUserAuthorizationExtraB();
-                    tvTypeUserAuthorizationExtraB = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationExtraBWithTVTypeUserAuthorizationID(TVTypeUserAuthorizationID);
-
-                    if (tvTypeUserAuthorizationExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(tvTypeUserAuthorizationExtraB);
-                }
                 else
                 {
                     TVTypeUserAuthorization tvTypeUserAuthorization = new TVTypeUserAuthorization();

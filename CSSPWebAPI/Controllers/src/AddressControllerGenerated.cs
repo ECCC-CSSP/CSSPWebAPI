@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 AddressService addressService = new AddressService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   addressService.Query = addressService.FillQuery(typeof(AddressExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (addressService.Query.HasErrors)
-                    {
-                        return Ok(new List<AddressExtraA>()
-                        {
-                            new AddressExtraA()
-                            {
-                                HasErrors = addressService.Query.HasErrors,
-                                ValidationResults = addressService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(addressService.GetAddressExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   addressService.Query = addressService.FillQuery(typeof(AddressExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (addressService.Query.HasErrors)
-                    {
-                        return Ok(new List<AddressExtraB>()
-                        {
-                            new AddressExtraB()
-                            {
-                                HasErrors = addressService.Query.HasErrors,
-                                ValidationResults = addressService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(addressService.GetAddressExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    addressService.Query = addressService.FillQuery(typeof(Address), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 addressService.Query = addressService.FillQuery(typeof(Address), lang, 0, 1, "", "", extra);
 
-                if (addressService.Query.Extra == "A")
-                {
-                    AddressExtraA addressExtraA = new AddressExtraA();
-                    addressExtraA = addressService.GetAddressExtraAWithAddressID(AddressID);
-
-                    if (addressExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(addressExtraA);
-                }
-                else if (addressService.Query.Extra == "B")
-                {
-                    AddressExtraB addressExtraB = new AddressExtraB();
-                    addressExtraB = addressService.GetAddressExtraBWithAddressID(AddressID);
-
-                    if (addressExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(addressExtraB);
-                }
                 else
                 {
                     Address address = new Address();

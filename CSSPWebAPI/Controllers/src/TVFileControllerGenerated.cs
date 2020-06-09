@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 TVFileService tvFileService = new TVFileService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   tvFileService.Query = tvFileService.FillQuery(typeof(TVFileExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (tvFileService.Query.HasErrors)
-                    {
-                        return Ok(new List<TVFileExtraA>()
-                        {
-                            new TVFileExtraA()
-                            {
-                                HasErrors = tvFileService.Query.HasErrors,
-                                ValidationResults = tvFileService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(tvFileService.GetTVFileExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   tvFileService.Query = tvFileService.FillQuery(typeof(TVFileExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (tvFileService.Query.HasErrors)
-                    {
-                        return Ok(new List<TVFileExtraB>()
-                        {
-                            new TVFileExtraB()
-                            {
-                                HasErrors = tvFileService.Query.HasErrors,
-                                ValidationResults = tvFileService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(tvFileService.GetTVFileExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    tvFileService.Query = tvFileService.FillQuery(typeof(TVFile), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 tvFileService.Query = tvFileService.FillQuery(typeof(TVFile), lang, 0, 1, "", "", extra);
 
-                if (tvFileService.Query.Extra == "A")
-                {
-                    TVFileExtraA tvFileExtraA = new TVFileExtraA();
-                    tvFileExtraA = tvFileService.GetTVFileExtraAWithTVFileID(TVFileID);
-
-                    if (tvFileExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(tvFileExtraA);
-                }
-                else if (tvFileService.Query.Extra == "B")
-                {
-                    TVFileExtraB tvFileExtraB = new TVFileExtraB();
-                    tvFileExtraB = tvFileService.GetTVFileExtraBWithTVFileID(TVFileID);
-
-                    if (tvFileExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(tvFileExtraB);
-                }
                 else
                 {
                     TVFile tvFile = new TVFile();

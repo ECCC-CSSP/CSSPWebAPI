@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 ClimateDataValueService climateDataValueService = new ClimateDataValueService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   climateDataValueService.Query = climateDataValueService.FillQuery(typeof(ClimateDataValueExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (climateDataValueService.Query.HasErrors)
-                    {
-                        return Ok(new List<ClimateDataValueExtraA>()
-                        {
-                            new ClimateDataValueExtraA()
-                            {
-                                HasErrors = climateDataValueService.Query.HasErrors,
-                                ValidationResults = climateDataValueService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(climateDataValueService.GetClimateDataValueExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   climateDataValueService.Query = climateDataValueService.FillQuery(typeof(ClimateDataValueExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (climateDataValueService.Query.HasErrors)
-                    {
-                        return Ok(new List<ClimateDataValueExtraB>()
-                        {
-                            new ClimateDataValueExtraB()
-                            {
-                                HasErrors = climateDataValueService.Query.HasErrors,
-                                ValidationResults = climateDataValueService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(climateDataValueService.GetClimateDataValueExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    climateDataValueService.Query = climateDataValueService.FillQuery(typeof(ClimateDataValue), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 climateDataValueService.Query = climateDataValueService.FillQuery(typeof(ClimateDataValue), lang, 0, 1, "", "", extra);
 
-                if (climateDataValueService.Query.Extra == "A")
-                {
-                    ClimateDataValueExtraA climateDataValueExtraA = new ClimateDataValueExtraA();
-                    climateDataValueExtraA = climateDataValueService.GetClimateDataValueExtraAWithClimateDataValueID(ClimateDataValueID);
-
-                    if (climateDataValueExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(climateDataValueExtraA);
-                }
-                else if (climateDataValueService.Query.Extra == "B")
-                {
-                    ClimateDataValueExtraB climateDataValueExtraB = new ClimateDataValueExtraB();
-                    climateDataValueExtraB = climateDataValueService.GetClimateDataValueExtraBWithClimateDataValueID(ClimateDataValueID);
-
-                    if (climateDataValueExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(climateDataValueExtraB);
-                }
                 else
                 {
                     ClimateDataValue climateDataValue = new ClimateDataValue();

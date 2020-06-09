@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 TideSiteService tideSiteService = new TideSiteService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   tideSiteService.Query = tideSiteService.FillQuery(typeof(TideSiteExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (tideSiteService.Query.HasErrors)
-                    {
-                        return Ok(new List<TideSiteExtraA>()
-                        {
-                            new TideSiteExtraA()
-                            {
-                                HasErrors = tideSiteService.Query.HasErrors,
-                                ValidationResults = tideSiteService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(tideSiteService.GetTideSiteExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   tideSiteService.Query = tideSiteService.FillQuery(typeof(TideSiteExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (tideSiteService.Query.HasErrors)
-                    {
-                        return Ok(new List<TideSiteExtraB>()
-                        {
-                            new TideSiteExtraB()
-                            {
-                                HasErrors = tideSiteService.Query.HasErrors,
-                                ValidationResults = tideSiteService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(tideSiteService.GetTideSiteExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    tideSiteService.Query = tideSiteService.FillQuery(typeof(TideSite), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 tideSiteService.Query = tideSiteService.FillQuery(typeof(TideSite), lang, 0, 1, "", "", extra);
 
-                if (tideSiteService.Query.Extra == "A")
-                {
-                    TideSiteExtraA tideSiteExtraA = new TideSiteExtraA();
-                    tideSiteExtraA = tideSiteService.GetTideSiteExtraAWithTideSiteID(TideSiteID);
-
-                    if (tideSiteExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(tideSiteExtraA);
-                }
-                else if (tideSiteService.Query.Extra == "B")
-                {
-                    TideSiteExtraB tideSiteExtraB = new TideSiteExtraB();
-                    tideSiteExtraB = tideSiteService.GetTideSiteExtraBWithTideSiteID(TideSiteID);
-
-                    if (tideSiteExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(tideSiteExtraB);
-                }
                 else
                 {
                     TideSite tideSite = new TideSite();

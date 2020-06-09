@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 MWQMSiteStartEndDateService mwqmSiteStartEndDateService = new MWQMSiteStartEndDateService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   mwqmSiteStartEndDateService.Query = mwqmSiteStartEndDateService.FillQuery(typeof(MWQMSiteStartEndDateExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (mwqmSiteStartEndDateService.Query.HasErrors)
-                    {
-                        return Ok(new List<MWQMSiteStartEndDateExtraA>()
-                        {
-                            new MWQMSiteStartEndDateExtraA()
-                            {
-                                HasErrors = mwqmSiteStartEndDateService.Query.HasErrors,
-                                ValidationResults = mwqmSiteStartEndDateService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(mwqmSiteStartEndDateService.GetMWQMSiteStartEndDateExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   mwqmSiteStartEndDateService.Query = mwqmSiteStartEndDateService.FillQuery(typeof(MWQMSiteStartEndDateExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (mwqmSiteStartEndDateService.Query.HasErrors)
-                    {
-                        return Ok(new List<MWQMSiteStartEndDateExtraB>()
-                        {
-                            new MWQMSiteStartEndDateExtraB()
-                            {
-                                HasErrors = mwqmSiteStartEndDateService.Query.HasErrors,
-                                ValidationResults = mwqmSiteStartEndDateService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(mwqmSiteStartEndDateService.GetMWQMSiteStartEndDateExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    mwqmSiteStartEndDateService.Query = mwqmSiteStartEndDateService.FillQuery(typeof(MWQMSiteStartEndDate), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 mwqmSiteStartEndDateService.Query = mwqmSiteStartEndDateService.FillQuery(typeof(MWQMSiteStartEndDate), lang, 0, 1, "", "", extra);
 
-                if (mwqmSiteStartEndDateService.Query.Extra == "A")
-                {
-                    MWQMSiteStartEndDateExtraA mwqmSiteStartEndDateExtraA = new MWQMSiteStartEndDateExtraA();
-                    mwqmSiteStartEndDateExtraA = mwqmSiteStartEndDateService.GetMWQMSiteStartEndDateExtraAWithMWQMSiteStartEndDateID(MWQMSiteStartEndDateID);
-
-                    if (mwqmSiteStartEndDateExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(mwqmSiteStartEndDateExtraA);
-                }
-                else if (mwqmSiteStartEndDateService.Query.Extra == "B")
-                {
-                    MWQMSiteStartEndDateExtraB mwqmSiteStartEndDateExtraB = new MWQMSiteStartEndDateExtraB();
-                    mwqmSiteStartEndDateExtraB = mwqmSiteStartEndDateService.GetMWQMSiteStartEndDateExtraBWithMWQMSiteStartEndDateID(MWQMSiteStartEndDateID);
-
-                    if (mwqmSiteStartEndDateExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(mwqmSiteStartEndDateExtraB);
-                }
                 else
                 {
                     MWQMSiteStartEndDate mwqmSiteStartEndDate = new MWQMSiteStartEndDate();

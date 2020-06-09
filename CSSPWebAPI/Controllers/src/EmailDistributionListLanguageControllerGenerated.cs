@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 EmailDistributionListLanguageService emailDistributionListLanguageService = new EmailDistributionListLanguageService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   emailDistributionListLanguageService.Query = emailDistributionListLanguageService.FillQuery(typeof(EmailDistributionListLanguageExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (emailDistributionListLanguageService.Query.HasErrors)
-                    {
-                        return Ok(new List<EmailDistributionListLanguageExtraA>()
-                        {
-                            new EmailDistributionListLanguageExtraA()
-                            {
-                                HasErrors = emailDistributionListLanguageService.Query.HasErrors,
-                                ValidationResults = emailDistributionListLanguageService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(emailDistributionListLanguageService.GetEmailDistributionListLanguageExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   emailDistributionListLanguageService.Query = emailDistributionListLanguageService.FillQuery(typeof(EmailDistributionListLanguageExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (emailDistributionListLanguageService.Query.HasErrors)
-                    {
-                        return Ok(new List<EmailDistributionListLanguageExtraB>()
-                        {
-                            new EmailDistributionListLanguageExtraB()
-                            {
-                                HasErrors = emailDistributionListLanguageService.Query.HasErrors,
-                                ValidationResults = emailDistributionListLanguageService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(emailDistributionListLanguageService.GetEmailDistributionListLanguageExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    emailDistributionListLanguageService.Query = emailDistributionListLanguageService.FillQuery(typeof(EmailDistributionListLanguage), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 emailDistributionListLanguageService.Query = emailDistributionListLanguageService.FillQuery(typeof(EmailDistributionListLanguage), lang, 0, 1, "", "", extra);
 
-                if (emailDistributionListLanguageService.Query.Extra == "A")
-                {
-                    EmailDistributionListLanguageExtraA emailDistributionListLanguageExtraA = new EmailDistributionListLanguageExtraA();
-                    emailDistributionListLanguageExtraA = emailDistributionListLanguageService.GetEmailDistributionListLanguageExtraAWithEmailDistributionListLanguageID(EmailDistributionListLanguageID);
-
-                    if (emailDistributionListLanguageExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(emailDistributionListLanguageExtraA);
-                }
-                else if (emailDistributionListLanguageService.Query.Extra == "B")
-                {
-                    EmailDistributionListLanguageExtraB emailDistributionListLanguageExtraB = new EmailDistributionListLanguageExtraB();
-                    emailDistributionListLanguageExtraB = emailDistributionListLanguageService.GetEmailDistributionListLanguageExtraBWithEmailDistributionListLanguageID(EmailDistributionListLanguageID);
-
-                    if (emailDistributionListLanguageExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(emailDistributionListLanguageExtraB);
-                }
                 else
                 {
                     EmailDistributionListLanguage emailDistributionListLanguage = new EmailDistributionListLanguage();

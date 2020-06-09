@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 SamplingPlanService samplingPlanService = new SamplingPlanService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   samplingPlanService.Query = samplingPlanService.FillQuery(typeof(SamplingPlanExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (samplingPlanService.Query.HasErrors)
-                    {
-                        return Ok(new List<SamplingPlanExtraA>()
-                        {
-                            new SamplingPlanExtraA()
-                            {
-                                HasErrors = samplingPlanService.Query.HasErrors,
-                                ValidationResults = samplingPlanService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(samplingPlanService.GetSamplingPlanExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   samplingPlanService.Query = samplingPlanService.FillQuery(typeof(SamplingPlanExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (samplingPlanService.Query.HasErrors)
-                    {
-                        return Ok(new List<SamplingPlanExtraB>()
-                        {
-                            new SamplingPlanExtraB()
-                            {
-                                HasErrors = samplingPlanService.Query.HasErrors,
-                                ValidationResults = samplingPlanService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(samplingPlanService.GetSamplingPlanExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    samplingPlanService.Query = samplingPlanService.FillQuery(typeof(SamplingPlan), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 samplingPlanService.Query = samplingPlanService.FillQuery(typeof(SamplingPlan), lang, 0, 1, "", "", extra);
 
-                if (samplingPlanService.Query.Extra == "A")
-                {
-                    SamplingPlanExtraA samplingPlanExtraA = new SamplingPlanExtraA();
-                    samplingPlanExtraA = samplingPlanService.GetSamplingPlanExtraAWithSamplingPlanID(SamplingPlanID);
-
-                    if (samplingPlanExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(samplingPlanExtraA);
-                }
-                else if (samplingPlanService.Query.Extra == "B")
-                {
-                    SamplingPlanExtraB samplingPlanExtraB = new SamplingPlanExtraB();
-                    samplingPlanExtraB = samplingPlanService.GetSamplingPlanExtraBWithSamplingPlanID(SamplingPlanID);
-
-                    if (samplingPlanExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(samplingPlanExtraB);
-                }
                 else
                 {
                     SamplingPlan samplingPlan = new SamplingPlan();

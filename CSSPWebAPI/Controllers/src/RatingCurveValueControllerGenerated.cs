@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 RatingCurveValueService ratingCurveValueService = new RatingCurveValueService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   ratingCurveValueService.Query = ratingCurveValueService.FillQuery(typeof(RatingCurveValueExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (ratingCurveValueService.Query.HasErrors)
-                    {
-                        return Ok(new List<RatingCurveValueExtraA>()
-                        {
-                            new RatingCurveValueExtraA()
-                            {
-                                HasErrors = ratingCurveValueService.Query.HasErrors,
-                                ValidationResults = ratingCurveValueService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(ratingCurveValueService.GetRatingCurveValueExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   ratingCurveValueService.Query = ratingCurveValueService.FillQuery(typeof(RatingCurveValueExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (ratingCurveValueService.Query.HasErrors)
-                    {
-                        return Ok(new List<RatingCurveValueExtraB>()
-                        {
-                            new RatingCurveValueExtraB()
-                            {
-                                HasErrors = ratingCurveValueService.Query.HasErrors,
-                                ValidationResults = ratingCurveValueService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(ratingCurveValueService.GetRatingCurveValueExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    ratingCurveValueService.Query = ratingCurveValueService.FillQuery(typeof(RatingCurveValue), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 ratingCurveValueService.Query = ratingCurveValueService.FillQuery(typeof(RatingCurveValue), lang, 0, 1, "", "", extra);
 
-                if (ratingCurveValueService.Query.Extra == "A")
-                {
-                    RatingCurveValueExtraA ratingCurveValueExtraA = new RatingCurveValueExtraA();
-                    ratingCurveValueExtraA = ratingCurveValueService.GetRatingCurveValueExtraAWithRatingCurveValueID(RatingCurveValueID);
-
-                    if (ratingCurveValueExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(ratingCurveValueExtraA);
-                }
-                else if (ratingCurveValueService.Query.Extra == "B")
-                {
-                    RatingCurveValueExtraB ratingCurveValueExtraB = new RatingCurveValueExtraB();
-                    ratingCurveValueExtraB = ratingCurveValueService.GetRatingCurveValueExtraBWithRatingCurveValueID(RatingCurveValueID);
-
-                    if (ratingCurveValueExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(ratingCurveValueExtraB);
-                }
                 else
                 {
                     RatingCurveValue ratingCurveValue = new RatingCurveValue();

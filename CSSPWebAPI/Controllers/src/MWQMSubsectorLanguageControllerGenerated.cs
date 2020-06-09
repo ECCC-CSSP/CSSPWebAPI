@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 MWQMSubsectorLanguageService mwqmSubsectorLanguageService = new MWQMSubsectorLanguageService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   mwqmSubsectorLanguageService.Query = mwqmSubsectorLanguageService.FillQuery(typeof(MWQMSubsectorLanguageExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (mwqmSubsectorLanguageService.Query.HasErrors)
-                    {
-                        return Ok(new List<MWQMSubsectorLanguageExtraA>()
-                        {
-                            new MWQMSubsectorLanguageExtraA()
-                            {
-                                HasErrors = mwqmSubsectorLanguageService.Query.HasErrors,
-                                ValidationResults = mwqmSubsectorLanguageService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(mwqmSubsectorLanguageService.GetMWQMSubsectorLanguageExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   mwqmSubsectorLanguageService.Query = mwqmSubsectorLanguageService.FillQuery(typeof(MWQMSubsectorLanguageExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (mwqmSubsectorLanguageService.Query.HasErrors)
-                    {
-                        return Ok(new List<MWQMSubsectorLanguageExtraB>()
-                        {
-                            new MWQMSubsectorLanguageExtraB()
-                            {
-                                HasErrors = mwqmSubsectorLanguageService.Query.HasErrors,
-                                ValidationResults = mwqmSubsectorLanguageService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(mwqmSubsectorLanguageService.GetMWQMSubsectorLanguageExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    mwqmSubsectorLanguageService.Query = mwqmSubsectorLanguageService.FillQuery(typeof(MWQMSubsectorLanguage), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 mwqmSubsectorLanguageService.Query = mwqmSubsectorLanguageService.FillQuery(typeof(MWQMSubsectorLanguage), lang, 0, 1, "", "", extra);
 
-                if (mwqmSubsectorLanguageService.Query.Extra == "A")
-                {
-                    MWQMSubsectorLanguageExtraA mwqmSubsectorLanguageExtraA = new MWQMSubsectorLanguageExtraA();
-                    mwqmSubsectorLanguageExtraA = mwqmSubsectorLanguageService.GetMWQMSubsectorLanguageExtraAWithMWQMSubsectorLanguageID(MWQMSubsectorLanguageID);
-
-                    if (mwqmSubsectorLanguageExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(mwqmSubsectorLanguageExtraA);
-                }
-                else if (mwqmSubsectorLanguageService.Query.Extra == "B")
-                {
-                    MWQMSubsectorLanguageExtraB mwqmSubsectorLanguageExtraB = new MWQMSubsectorLanguageExtraB();
-                    mwqmSubsectorLanguageExtraB = mwqmSubsectorLanguageService.GetMWQMSubsectorLanguageExtraBWithMWQMSubsectorLanguageID(MWQMSubsectorLanguageID);
-
-                    if (mwqmSubsectorLanguageExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(mwqmSubsectorLanguageExtraB);
-                }
                 else
                 {
                     MWQMSubsectorLanguage mwqmSubsectorLanguage = new MWQMSubsectorLanguage();

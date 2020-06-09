@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 InfrastructureLanguageService infrastructureLanguageService = new InfrastructureLanguageService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   infrastructureLanguageService.Query = infrastructureLanguageService.FillQuery(typeof(InfrastructureLanguageExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (infrastructureLanguageService.Query.HasErrors)
-                    {
-                        return Ok(new List<InfrastructureLanguageExtraA>()
-                        {
-                            new InfrastructureLanguageExtraA()
-                            {
-                                HasErrors = infrastructureLanguageService.Query.HasErrors,
-                                ValidationResults = infrastructureLanguageService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(infrastructureLanguageService.GetInfrastructureLanguageExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   infrastructureLanguageService.Query = infrastructureLanguageService.FillQuery(typeof(InfrastructureLanguageExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (infrastructureLanguageService.Query.HasErrors)
-                    {
-                        return Ok(new List<InfrastructureLanguageExtraB>()
-                        {
-                            new InfrastructureLanguageExtraB()
-                            {
-                                HasErrors = infrastructureLanguageService.Query.HasErrors,
-                                ValidationResults = infrastructureLanguageService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(infrastructureLanguageService.GetInfrastructureLanguageExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    infrastructureLanguageService.Query = infrastructureLanguageService.FillQuery(typeof(InfrastructureLanguage), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 infrastructureLanguageService.Query = infrastructureLanguageService.FillQuery(typeof(InfrastructureLanguage), lang, 0, 1, "", "", extra);
 
-                if (infrastructureLanguageService.Query.Extra == "A")
-                {
-                    InfrastructureLanguageExtraA infrastructureLanguageExtraA = new InfrastructureLanguageExtraA();
-                    infrastructureLanguageExtraA = infrastructureLanguageService.GetInfrastructureLanguageExtraAWithInfrastructureLanguageID(InfrastructureLanguageID);
-
-                    if (infrastructureLanguageExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(infrastructureLanguageExtraA);
-                }
-                else if (infrastructureLanguageService.Query.Extra == "B")
-                {
-                    InfrastructureLanguageExtraB infrastructureLanguageExtraB = new InfrastructureLanguageExtraB();
-                    infrastructureLanguageExtraB = infrastructureLanguageService.GetInfrastructureLanguageExtraBWithInfrastructureLanguageID(InfrastructureLanguageID);
-
-                    if (infrastructureLanguageExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(infrastructureLanguageExtraB);
-                }
                 else
                 {
                     InfrastructureLanguage infrastructureLanguage = new InfrastructureLanguage();

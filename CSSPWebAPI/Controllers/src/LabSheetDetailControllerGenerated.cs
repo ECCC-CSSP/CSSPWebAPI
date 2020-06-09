@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 LabSheetDetailService labSheetDetailService = new LabSheetDetailService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   labSheetDetailService.Query = labSheetDetailService.FillQuery(typeof(LabSheetDetailExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (labSheetDetailService.Query.HasErrors)
-                    {
-                        return Ok(new List<LabSheetDetailExtraA>()
-                        {
-                            new LabSheetDetailExtraA()
-                            {
-                                HasErrors = labSheetDetailService.Query.HasErrors,
-                                ValidationResults = labSheetDetailService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(labSheetDetailService.GetLabSheetDetailExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   labSheetDetailService.Query = labSheetDetailService.FillQuery(typeof(LabSheetDetailExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (labSheetDetailService.Query.HasErrors)
-                    {
-                        return Ok(new List<LabSheetDetailExtraB>()
-                        {
-                            new LabSheetDetailExtraB()
-                            {
-                                HasErrors = labSheetDetailService.Query.HasErrors,
-                                ValidationResults = labSheetDetailService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(labSheetDetailService.GetLabSheetDetailExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    labSheetDetailService.Query = labSheetDetailService.FillQuery(typeof(LabSheetDetail), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 labSheetDetailService.Query = labSheetDetailService.FillQuery(typeof(LabSheetDetail), lang, 0, 1, "", "", extra);
 
-                if (labSheetDetailService.Query.Extra == "A")
-                {
-                    LabSheetDetailExtraA labSheetDetailExtraA = new LabSheetDetailExtraA();
-                    labSheetDetailExtraA = labSheetDetailService.GetLabSheetDetailExtraAWithLabSheetDetailID(LabSheetDetailID);
-
-                    if (labSheetDetailExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(labSheetDetailExtraA);
-                }
-                else if (labSheetDetailService.Query.Extra == "B")
-                {
-                    LabSheetDetailExtraB labSheetDetailExtraB = new LabSheetDetailExtraB();
-                    labSheetDetailExtraB = labSheetDetailService.GetLabSheetDetailExtraBWithLabSheetDetailID(LabSheetDetailID);
-
-                    if (labSheetDetailExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(labSheetDetailExtraB);
-                }
                 else
                 {
                     LabSheetDetail labSheetDetail = new LabSheetDetail();

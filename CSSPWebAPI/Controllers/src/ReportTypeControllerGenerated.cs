@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 ReportTypeService reportTypeService = new ReportTypeService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   reportTypeService.Query = reportTypeService.FillQuery(typeof(ReportTypeExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (reportTypeService.Query.HasErrors)
-                    {
-                        return Ok(new List<ReportTypeExtraA>()
-                        {
-                            new ReportTypeExtraA()
-                            {
-                                HasErrors = reportTypeService.Query.HasErrors,
-                                ValidationResults = reportTypeService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(reportTypeService.GetReportTypeExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   reportTypeService.Query = reportTypeService.FillQuery(typeof(ReportTypeExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (reportTypeService.Query.HasErrors)
-                    {
-                        return Ok(new List<ReportTypeExtraB>()
-                        {
-                            new ReportTypeExtraB()
-                            {
-                                HasErrors = reportTypeService.Query.HasErrors,
-                                ValidationResults = reportTypeService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(reportTypeService.GetReportTypeExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    reportTypeService.Query = reportTypeService.FillQuery(typeof(ReportType), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 reportTypeService.Query = reportTypeService.FillQuery(typeof(ReportType), lang, 0, 1, "", "", extra);
 
-                if (reportTypeService.Query.Extra == "A")
-                {
-                    ReportTypeExtraA reportTypeExtraA = new ReportTypeExtraA();
-                    reportTypeExtraA = reportTypeService.GetReportTypeExtraAWithReportTypeID(ReportTypeID);
-
-                    if (reportTypeExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(reportTypeExtraA);
-                }
-                else if (reportTypeService.Query.Extra == "B")
-                {
-                    ReportTypeExtraB reportTypeExtraB = new ReportTypeExtraB();
-                    reportTypeExtraB = reportTypeService.GetReportTypeExtraBWithReportTypeID(ReportTypeID);
-
-                    if (reportTypeExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(reportTypeExtraB);
-                }
                 else
                 {
                     ReportType reportType = new ReportType();

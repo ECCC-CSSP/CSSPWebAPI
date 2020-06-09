@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 HelpDocService helpDocService = new HelpDocService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   helpDocService.Query = helpDocService.FillQuery(typeof(HelpDocExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (helpDocService.Query.HasErrors)
-                    {
-                        return Ok(new List<HelpDocExtraA>()
-                        {
-                            new HelpDocExtraA()
-                            {
-                                HasErrors = helpDocService.Query.HasErrors,
-                                ValidationResults = helpDocService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(helpDocService.GetHelpDocExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   helpDocService.Query = helpDocService.FillQuery(typeof(HelpDocExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (helpDocService.Query.HasErrors)
-                    {
-                        return Ok(new List<HelpDocExtraB>()
-                        {
-                            new HelpDocExtraB()
-                            {
-                                HasErrors = helpDocService.Query.HasErrors,
-                                ValidationResults = helpDocService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(helpDocService.GetHelpDocExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    helpDocService.Query = helpDocService.FillQuery(typeof(HelpDoc), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 helpDocService.Query = helpDocService.FillQuery(typeof(HelpDoc), lang, 0, 1, "", "", extra);
 
-                if (helpDocService.Query.Extra == "A")
-                {
-                    HelpDocExtraA helpDocExtraA = new HelpDocExtraA();
-                    helpDocExtraA = helpDocService.GetHelpDocExtraAWithHelpDocID(HelpDocID);
-
-                    if (helpDocExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(helpDocExtraA);
-                }
-                else if (helpDocService.Query.Extra == "B")
-                {
-                    HelpDocExtraB helpDocExtraB = new HelpDocExtraB();
-                    helpDocExtraB = helpDocService.GetHelpDocExtraBWithHelpDocID(HelpDocID);
-
-                    if (helpDocExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(helpDocExtraB);
-                }
                 else
                 {
                     HelpDoc helpDoc = new HelpDoc();

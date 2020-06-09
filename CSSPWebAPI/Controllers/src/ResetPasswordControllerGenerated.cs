@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 ResetPasswordService resetPasswordService = new ResetPasswordService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   resetPasswordService.Query = resetPasswordService.FillQuery(typeof(ResetPasswordExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (resetPasswordService.Query.HasErrors)
-                    {
-                        return Ok(new List<ResetPasswordExtraA>()
-                        {
-                            new ResetPasswordExtraA()
-                            {
-                                HasErrors = resetPasswordService.Query.HasErrors,
-                                ValidationResults = resetPasswordService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(resetPasswordService.GetResetPasswordExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   resetPasswordService.Query = resetPasswordService.FillQuery(typeof(ResetPasswordExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (resetPasswordService.Query.HasErrors)
-                    {
-                        return Ok(new List<ResetPasswordExtraB>()
-                        {
-                            new ResetPasswordExtraB()
-                            {
-                                HasErrors = resetPasswordService.Query.HasErrors,
-                                ValidationResults = resetPasswordService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(resetPasswordService.GetResetPasswordExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    resetPasswordService.Query = resetPasswordService.FillQuery(typeof(ResetPassword), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 resetPasswordService.Query = resetPasswordService.FillQuery(typeof(ResetPassword), lang, 0, 1, "", "", extra);
 
-                if (resetPasswordService.Query.Extra == "A")
-                {
-                    ResetPasswordExtraA resetPasswordExtraA = new ResetPasswordExtraA();
-                    resetPasswordExtraA = resetPasswordService.GetResetPasswordExtraAWithResetPasswordID(ResetPasswordID);
-
-                    if (resetPasswordExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(resetPasswordExtraA);
-                }
-                else if (resetPasswordService.Query.Extra == "B")
-                {
-                    ResetPasswordExtraB resetPasswordExtraB = new ResetPasswordExtraB();
-                    resetPasswordExtraB = resetPasswordService.GetResetPasswordExtraBWithResetPasswordID(ResetPasswordID);
-
-                    if (resetPasswordExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(resetPasswordExtraB);
-                }
                 else
                 {
                     ResetPassword resetPassword = new ResetPassword();

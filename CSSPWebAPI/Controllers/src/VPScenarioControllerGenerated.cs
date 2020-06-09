@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 VPScenarioService vpScenarioService = new VPScenarioService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   vpScenarioService.Query = vpScenarioService.FillQuery(typeof(VPScenarioExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (vpScenarioService.Query.HasErrors)
-                    {
-                        return Ok(new List<VPScenarioExtraA>()
-                        {
-                            new VPScenarioExtraA()
-                            {
-                                HasErrors = vpScenarioService.Query.HasErrors,
-                                ValidationResults = vpScenarioService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(vpScenarioService.GetVPScenarioExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   vpScenarioService.Query = vpScenarioService.FillQuery(typeof(VPScenarioExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (vpScenarioService.Query.HasErrors)
-                    {
-                        return Ok(new List<VPScenarioExtraB>()
-                        {
-                            new VPScenarioExtraB()
-                            {
-                                HasErrors = vpScenarioService.Query.HasErrors,
-                                ValidationResults = vpScenarioService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(vpScenarioService.GetVPScenarioExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    vpScenarioService.Query = vpScenarioService.FillQuery(typeof(VPScenario), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 vpScenarioService.Query = vpScenarioService.FillQuery(typeof(VPScenario), lang, 0, 1, "", "", extra);
 
-                if (vpScenarioService.Query.Extra == "A")
-                {
-                    VPScenarioExtraA vpScenarioExtraA = new VPScenarioExtraA();
-                    vpScenarioExtraA = vpScenarioService.GetVPScenarioExtraAWithVPScenarioID(VPScenarioID);
-
-                    if (vpScenarioExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(vpScenarioExtraA);
-                }
-                else if (vpScenarioService.Query.Extra == "B")
-                {
-                    VPScenarioExtraB vpScenarioExtraB = new VPScenarioExtraB();
-                    vpScenarioExtraB = vpScenarioService.GetVPScenarioExtraBWithVPScenarioID(VPScenarioID);
-
-                    if (vpScenarioExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(vpScenarioExtraB);
-                }
                 else
                 {
                     VPScenario vpScenario = new VPScenario();

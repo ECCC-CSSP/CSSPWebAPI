@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 ContactShortcutService contactShortcutService = new ContactShortcutService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   contactShortcutService.Query = contactShortcutService.FillQuery(typeof(ContactShortcutExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (contactShortcutService.Query.HasErrors)
-                    {
-                        return Ok(new List<ContactShortcutExtraA>()
-                        {
-                            new ContactShortcutExtraA()
-                            {
-                                HasErrors = contactShortcutService.Query.HasErrors,
-                                ValidationResults = contactShortcutService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(contactShortcutService.GetContactShortcutExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   contactShortcutService.Query = contactShortcutService.FillQuery(typeof(ContactShortcutExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (contactShortcutService.Query.HasErrors)
-                    {
-                        return Ok(new List<ContactShortcutExtraB>()
-                        {
-                            new ContactShortcutExtraB()
-                            {
-                                HasErrors = contactShortcutService.Query.HasErrors,
-                                ValidationResults = contactShortcutService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(contactShortcutService.GetContactShortcutExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    contactShortcutService.Query = contactShortcutService.FillQuery(typeof(ContactShortcut), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 contactShortcutService.Query = contactShortcutService.FillQuery(typeof(ContactShortcut), lang, 0, 1, "", "", extra);
 
-                if (contactShortcutService.Query.Extra == "A")
-                {
-                    ContactShortcutExtraA contactShortcutExtraA = new ContactShortcutExtraA();
-                    contactShortcutExtraA = contactShortcutService.GetContactShortcutExtraAWithContactShortcutID(ContactShortcutID);
-
-                    if (contactShortcutExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(contactShortcutExtraA);
-                }
-                else if (contactShortcutService.Query.Extra == "B")
-                {
-                    ContactShortcutExtraB contactShortcutExtraB = new ContactShortcutExtraB();
-                    contactShortcutExtraB = contactShortcutService.GetContactShortcutExtraBWithContactShortcutID(ContactShortcutID);
-
-                    if (contactShortcutExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(contactShortcutExtraB);
-                }
                 else
                 {
                     ContactShortcut contactShortcut = new ContactShortcut();

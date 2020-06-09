@@ -36,46 +36,6 @@ namespace CSSPWebAPI.Controllers
             {
                 MWQMSiteService mwqmSiteService = new MWQMSiteService(new Query() { Lang = lang }, db, ContactID);
 
-                if (extra == "A") // QueryString contains [extra=A]
-                {
-                   mwqmSiteService.Query = mwqmSiteService.FillQuery(typeof(MWQMSiteExtraA), lang, skip, take, asc, desc, where, extra);
-
-                    if (mwqmSiteService.Query.HasErrors)
-                    {
-                        return Ok(new List<MWQMSiteExtraA>()
-                        {
-                            new MWQMSiteExtraA()
-                            {
-                                HasErrors = mwqmSiteService.Query.HasErrors,
-                                ValidationResults = mwqmSiteService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(mwqmSiteService.GetMWQMSiteExtraAList().ToList());
-                    }
-                }
-                else if (extra == "B") // QueryString contains [extra=B]
-                {
-                   mwqmSiteService.Query = mwqmSiteService.FillQuery(typeof(MWQMSiteExtraB), lang, skip, take, asc, desc, where, extra);
-
-                    if (mwqmSiteService.Query.HasErrors)
-                    {
-                        return Ok(new List<MWQMSiteExtraB>()
-                        {
-                            new MWQMSiteExtraB()
-                            {
-                                HasErrors = mwqmSiteService.Query.HasErrors,
-                                ValidationResults = mwqmSiteService.Query.ValidationResults,
-                            },
-                        }.ToList());
-                    }
-                    else
-                    {
-                        return Ok(mwqmSiteService.GetMWQMSiteExtraBList().ToList());
-                    }
-                }
                 else // QueryString has no parameter [extra] or extra is empty
                 {
                    mwqmSiteService.Query = mwqmSiteService.FillQuery(typeof(MWQMSite), lang, skip, take, asc, desc, where, extra);
@@ -108,30 +68,6 @@ namespace CSSPWebAPI.Controllers
 
                 mwqmSiteService.Query = mwqmSiteService.FillQuery(typeof(MWQMSite), lang, 0, 1, "", "", extra);
 
-                if (mwqmSiteService.Query.Extra == "A")
-                {
-                    MWQMSiteExtraA mwqmSiteExtraA = new MWQMSiteExtraA();
-                    mwqmSiteExtraA = mwqmSiteService.GetMWQMSiteExtraAWithMWQMSiteID(MWQMSiteID);
-
-                    if (mwqmSiteExtraA == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(mwqmSiteExtraA);
-                }
-                else if (mwqmSiteService.Query.Extra == "B")
-                {
-                    MWQMSiteExtraB mwqmSiteExtraB = new MWQMSiteExtraB();
-                    mwqmSiteExtraB = mwqmSiteService.GetMWQMSiteExtraBWithMWQMSiteID(MWQMSiteID);
-
-                    if (mwqmSiteExtraB == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return Ok(mwqmSiteExtraB);
-                }
                 else
                 {
                     MWQMSite mwqmSite = new MWQMSite();
